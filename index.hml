@@ -1,1 +1,1756 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 漫剧入门完全指南 — 从零到第一部AI短剧</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   TOKEN SYSTEM
+   ============================================ */
+:root {
+  --bg-deep: #0d0d1a; --bg-card: #151528; --bg-elevated: #1c1c38;
+  --bg-highlight: #222250; --text-primary: #e8e6f0; --text-secondary: #a09cb8;
+  --text-muted: #6b6680; --accent: #e94560; --accent-glow: #ff6b81;
+  --warm-gold: #f0a500; --cool-blue: #4a9eff; --success: #2ed573;
+  --warning: #ffa502; --border: #2a2a45; --border-light: #35355a;
+  --film-perf: #3a3a5c; --radius-sm:6px; --radius-md:12px; --radius-lg:20px;
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.3); --shadow-glow: 0 0 40px rgba(233,69,96,0.15);
+  --font-display: 'Ma Shan Zheng',cursive; --font-body: 'Noto Sans SC',sans-serif;
+  --font-mono: 'JetBrains Mono',monospace; --content-width: 860px;
+  --sidebar-width: 200px; --topbar-height: 52px;
+  --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+[data-theme="light"] {
+  --bg-deep: #f5f3ee; --bg-card: #ffffff; --bg-elevated: #faf8f5;
+  --bg-highlight: #fef3f2; --text-primary: #1a1a2e; --text-secondary: #5a5570;
+  --text-muted: #8b86a0; --accent: #d63447; --accent-glow: #e94560;
+  --warm-gold: #c78500; --cool-blue: #3366cc; --border: #e0dcd5;
+  --border-light: #eee9e0; --film-perf: #d5d0c8;
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.06); --shadow-glow: 0 0 40px rgba(233,69,96,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:var(--font-body);background:var(--bg-deep);color:var(--text-primary);
+  line-height:1.75;-webkit-font-smoothing:antialiased;
+  transition:background var(--transition),color var(--transition);overflow-x:hidden;
+}
 
+/* ============================================
+   TOP NAV BAR
+   ============================================ */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--topbar-height);
+  background:var(--bg-card);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 16px;z-index:1000;
+  box-shadow:0 1px 12px rgba(0,0,0,0.2);
+}
+.topbar .logo{
+  font-family:var(--font-display);font-size:1.3rem;color:var(--accent);
+  white-space:nowrap;line-height:1;
+}
+.topbar .step-indicator{
+  margin-left:16px;font-size:0.82rem;color:var(--text-muted);
+  display:flex;align-items:center;gap:8px;
+}
+.topbar .step-indicator .current-step{color:var(--accent);font-weight:600}
+.topbar .nav-arrows{display:flex;gap:4px;margin-left:12px}
+.topbar .nav-arrows button{
+  background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-secondary);
+  width:30px;height:30px;border-radius:var(--radius-sm);cursor:pointer;
+  font-size:0.9rem;transition:all var(--transition);display:flex;align-items:center;justify-content:center;
+}
+.topbar .nav-arrows button:hover{color:var(--accent);border-color:var(--accent)}
+.topbar .nav-arrows button:disabled{opacity:0.3;cursor:not-allowed}
+.topbar-spacer{flex:1}
+.topbar .topbar-actions{display:flex;gap:6px;align-items:center}
+.topbar .theme-btn{
+  background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-secondary);
+  width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;transition:all var(--transition);
+}
+.topbar .theme-btn:hover{color:var(--warm-gold);border-color:var(--warm-gold)}
+.topbar .menu-btn{
+  display:none;background:var(--accent);color:#fff;border:none;
+  padding:6px 14px;border-radius:var(--radius-sm);cursor:pointer;
+  font-family:var(--font-body);font-size:0.82rem;font-weight:500;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.sidebar{
+  position:fixed;left:0;top:var(--topbar-height);bottom:0;
+  width:var(--sidebar-width);background:var(--bg-card);
+  border-right:1px solid var(--border);z-index:900;overflow-y:auto;
+  padding:12px 0;transition:transform var(--transition);
+}
+.sidebar::-webkit-scrollbar{width:3px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.sidebar-section-title{
+  font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--text-muted);padding:8px 16px 4px;margin-top:8px;
+}
+.sidebar a{
+  display:flex;align-items:center;gap:8px;text-decoration:none;
+  color:var(--text-secondary);font-size:0.82rem;padding:7px 16px;
+  transition:all var(--transition);border-left:2px solid transparent;
+  line-height:1.3;
+}
+.sidebar a .step-num{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);min-width:20px}
+.sidebar a:hover{color:var(--text-primary);background:rgba(233,69,96,0.04)}
+.sidebar a.active{
+  color:var(--accent-glow);background:rgba(233,69,96,0.06);
+  border-left-color:var(--accent);font-weight:500;
+}
+.sidebar a.active .step-num{color:var(--accent)}
+.sidebar-overlay{display:none}
+
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 24px rgba(0,0,0,0.4)}
+  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:899}
+  .sidebar-overlay.open{display:block}
+  .topbar .menu-btn{display:block}
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.main-wrap{
+  margin-left:var(--sidebar-width);margin-top:var(--topbar-height);
+  min-height:calc(100vh - var(--topbar-height));
+  transition:margin var(--transition);
+}
+@media(max-width:900px){.main-wrap{margin-left:0}}
+.main-inner{max-width:var(--content-width);margin:0 auto;padding:32px 24px 120px}
+
+/* Page transition */
+.page-content{animation:fadeSlideIn 0.3s ease-out}
+@keyframes fadeSlideIn{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* Step hero header */
+.step-hero{
+  margin-bottom:32px;padding-bottom:24px;
+  border-bottom:1px solid var(--border);
+}
+.step-hero .step-number{
+  font-family:var(--font-display);font-size:3rem;color:var(--accent);
+  line-height:1;margin-bottom:4px;opacity:0.7;
+}
+.step-hero .step-title{font-size:1.5rem;font-weight:600;margin-bottom:4px}
+.step-hero .step-subtitle{font-size:0.9rem;color:var(--text-muted);font-weight:300}
+
+/* ============================================
+   SHARED COMPONENTS (reuse from v1)
+   ============================================ */
+.explain-block{margin:16px 0;padding:16px 20px;border-radius:var(--radius-md);border-left:3px solid var(--border);background:var(--bg-elevated)}
+.explain-block.what{border-left-color:var(--cool-blue)}
+.explain-block.why{border-left-color:var(--warm-gold)}
+.explain-block.how{border-left-color:var(--success)}
+.explain-block h4{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.explain-block.what h4{color:var(--cool-blue)}
+.explain-block.why h4{color:var(--warm-gold)}
+.explain-block.how h4{color:var(--success)}
+.explain-block p,.explain-block li{font-size:0.9rem;color:var(--text-secondary)}
+.data-table-wrapper{overflow-x:auto;margin:16px 0;border-radius:var(--radius-md);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+thead th{background:var(--bg-elevated);padding:10px 14px;text-align:left;font-weight:600;color:var(--text-primary);white-space:nowrap;border-bottom:2px solid var(--border);font-size:0.8rem}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text-secondary);vertical-align:top}
+tbody tr:hover td{background:rgba(233,69,96,0.03)}
+tbody tr:last-child td{border-bottom:none}
+.prompt-block{position:relative;margin:16px 0;background:#0a0a16;border:2px solid var(--film-perf);border-radius:var(--radius-md);overflow:hidden}
+.prompt-header{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:var(--bg-elevated);border-bottom:1px solid var(--border);font-size:0.78rem;color:var(--text-muted)}
+.copy-btn{background:transparent;border:1px solid var(--border);color:var(--text-secondary);padding:4px 12px;border-radius:var(--radius-sm);cursor:pointer;font-size:0.75rem;font-family:var(--font-body);transition:all var(--transition)}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent)}
+.copy-btn.copied{background:var(--success);border-color:var(--success);color:#fff}
+.prompt-content{padding:14px 18px;font-family:var(--font-mono);font-size:0.8rem;line-height:1.6;color:var(--text-primary);overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+code{font-family:var(--font-mono);font-size:0.85em;background:var(--bg-elevated);padding:2px 6px;border-radius:3px;color:var(--accent-glow);border:1px solid var(--border)}
+.tip-card{margin:14px 0;padding:14px 18px;border-radius:var(--radius-md);font-size:0.88rem;display:flex;gap:10px;align-items:flex-start}
+.tip-card.tip{background:rgba(74,158,255,0.08);border:1px solid rgba(74,158,255,0.2);color:var(--cool-blue)}
+.tip-card.warning{background:rgba(255,165,2,0.08);border:1px solid rgba(255,165,2,0.2);color:var(--warning)}
+.tip-card.success{background:rgba(46,213,115,0.08);border:1px solid rgba(46,213,115,0.2);color:var(--success)}
+.tip-card.danger{background:rgba(233,69,96,0.08);border:1px solid rgba(233,69,96,0.2);color:var(--accent)}
+.tip-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.golden-box{background:linear-gradient(135deg,rgba(240,165,0,0.06),rgba(233,69,96,0.04));border:1px solid rgba(240,165,0,0.2);border-radius:var(--radius-md);padding:18px 22px;margin:16px 0;text-align:center}
+.golden-box strong{color:var(--warm-gold);font-family:var(--font-display);font-size:1.4rem}
+
+/* ============================================
+   BOTTOM NAV
+   ============================================ */
+.bottom-nav{
+  position:fixed;bottom:0;left:var(--sidebar-width);right:0;
+  background:var(--bg-card);border-top:1px solid var(--border);
+  padding:10px 24px;display:flex;justify-content:space-between;
+  align-items:center;z-index:800;transition:left var(--transition);
+}
+@media(max-width:900px){.bottom-nav{left:0}}
+.bottom-nav button{
+  background:var(--bg-elevated);border:1px solid var(--border);color:var(--text-secondary);
+  padding:8px 20px;border-radius:var(--radius-sm);cursor:pointer;
+  font-family:var(--font-body);font-size:0.85rem;transition:all var(--transition);
+  display:flex;align-items:center;gap:6px;
+}
+.bottom-nav button:hover:not(:disabled){color:var(--accent);border-color:var(--accent)}
+.bottom-nav button:disabled{opacity:0.3;cursor:not-allowed}
+.bottom-nav .step-dots{display:flex;gap:6px}
+.bottom-nav .step-dots .dot{
+  width:8px;height:8px;border-radius:50%;background:var(--border);
+  transition:all var(--transition);cursor:pointer;
+}
+.bottom-nav .step-dots .dot.active{background:var(--accent);width:20px;border-radius:4px}
+
+/* ============================================
+   BACK TO TOP & FOOTER
+   ============================================ */
+.back-to-top{
+  position:fixed;bottom:80px;right:24px;z-index:700;
+  width:40px;height:40px;border-radius:50%;background:var(--accent);
+  color:#fff;border:none;cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(20px);transition:all var(--transition);
+  box-shadow:0 4px 16px rgba(233,69,96,0.3);pointer-events:none;
+}
+.back-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.back-to-top:hover{background:var(--accent-glow)}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media(max-width:600px){
+  .step-hero .step-number{font-size:2.2rem}
+  .step-hero .step-title{font-size:1.3rem}
+  .topbar .logo{font-size:1.1rem}
+  .topbar .step-indicator{display:none}
+  .main-inner{padding:20px 16px 100px}
+  table{font-size:0.76rem}
+  thead th,tbody td{padding:7px 9px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <span class="logo">🎬 AI漫剧指南</span>
+  <div class="step-indicator"><span class="current-step" id="currentStepLabel">第1步</span><span id="currentStepTitle"></span></div>
+  <div class="nav-arrows">
+    <button id="prevBtn" title="上一步 (←键)">◀</button>
+    <button id="nextBtn" title="下一步 (→键)">▶</button>
+  </div>
+  <div class="topbar-spacer"></div>
+  <div class="topbar-actions">
+    <button class="theme-btn" id="themeBtn" title="切换亮/暗模式">🌙</button>
+    <button class="menu-btn" id="menuBtn">☰ 目录</button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<nav class="sidebar" id="sidebar"></nav>
+
+<!-- MAIN -->
+<div class="main-wrap">
+  <div class="main-inner" id="mainContent"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button id="bottomPrev" disabled>◀ 上一步</button>
+  <div class="step-dots" id="stepDots"></div>
+  <button id="bottomNext">下一步 ▶</button>
+</nav>
+
+<button class="back-to-top" id="backToTop">↑</button>
+
+<script>
+/* ============================================
+   DATA: Sidebar Structure
+   ============================================ */
+const SIDEBAR_ITEMS = [
+  { id:'step1',group:'教程',label:'写出好故事', num:'01', icon:'✍️' },
+  { id:'step2',group:'教程',label:'角色"身份证"', num:'02', icon:'👤' },
+  { id:'step3',group:'教程',label:'环境不乱变', num:'03', icon:'🏠' },
+  { id:'step4',group:'教程',label:'从写手变导演', num:'04', icon:'🎬' },
+  { id:'step5',group:'教程',label:'文字变成画面', num:'05', icon:'🖼️' },
+  { id:'step6',group:'教程',label:'画面动起来', num:'06', icon:'🎥' },
+  { id:'step7',group:'教程',label:'让剧有声音', num:'07', icon:'🎙️' },
+  { id:'step8',group:'教程',label:'拼成一部剧', num:'08', icon:'✂️' },
+  { id:'step9',group:'教程',label:'让作品被看到', num:'09', icon:'🚀' },
+  { id:'tools',group:'参考',label:'完整工具清单', num:'🧰', icon:'' },
+  { id:'bugs',group:'参考',label:'终极避坑大全', num:'🐛', icon:'' },
+  { id:'resources',group:'参考',label:'推荐学习资源', num:'📖', icon:'' },
+];
+
+/* ============================================
+   BUILD SIDEBAR DOM
+   ============================================ */
+function buildSidebar(){
+  const sb = document.getElementById('sidebar');
+  let html=''; let lastGroup='';
+  SIDEBAR_ITEMS.forEach((item,i)=>{
+    if(item.group!==lastGroup){
+      html+=`<div class="sidebar-section-title">${item.group}</div>`;
+      lastGroup=item.group;
+    }
+    html+=`<a href="#${item.id}" data-id="${item.id}" data-index="${i}"><span class="step-num">${item.num}</span>${item.label}</a>`;
+  });
+  sb.innerHTML=html;
+}
+buildSidebar();
+
+/* Render step dots */
+function buildDots(){
+  const dots = document.getElementById('stepDots');
+  dots.innerHTML = SIDEBAR_ITEMS.map((s,i)=>`<span class="dot" data-index="${i}" title="${s.num} ${s.label}" onclick="navigateTo('${s.id}')"></span>`).join('');
+}
+buildDots();
+
+/* ============================================
+   STEP CONTENT DATA
+   ============================================ */
+const STEPS = {};
+
+// -- Step 1: 剧本创作 (MASSIVELY EXPANDED) --
+STEPS['step1'] = {
+  number:'01', icon:'✍️', title:'剧本创作 — 先把故事写出来', label:'写出好故事',
+  html: `
+<div class="step-hero">
+  <div class="step-number">✍️ 01</div>
+  <div class="step-title">剧本创作 — 先把故事写出来</div>
+  <div class="step-subtitle">没有剧本，后面全是瞎搞。剧本决定了你需要什么角色、什么场景、多少个镜头。这是整个AI漫剧的"地基"。</div>
+</div>
+
+<div class="explain-block what">
+  <h4>🔍 这一步到底在做什么？</h4>
+  <p>就是写出你这部短剧的<strong>故事内容</strong>——谁在什么情况下做了什么，发生了什么转折。一集 AI 漫剧通常 <strong>1-2 分钟</strong>，约 <strong>200-400 字</strong>。这个字数听起来很少，但浓缩才是精华——你要在 60-90 秒内把观众抓住、带他们经历一场情绪过山车、最后留一个悬念让他们想看下一集。</p>
+</div>
+
+<div class="explain-block why">
+  <h4>💡 为什么先做这一步？</h4>
+  <p>剧本就像盖房子的图纸——没有图纸，砖往哪砌？剧本决定了后面所有步骤的方向：你需要设计什么角色、准备什么场景、写多少分镜。一部 AI 漫剧能不能火，<strong>80% 取决于剧本质量</strong>——再精美的画面也救不了一个无聊的故事。</p>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">📊 模块一：选题定位 — 做什么题材最容易火？</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">选题是剧本创作的第一步，也是最容易被跳过的关键决策。好的选题自带流量，糟糕的选题做出来也没人看。</p>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>题材</th><th>热度</th><th>难度</th><th>适合新手？</th><th>受众</th></tr></thead>
+<tbody>
+<tr><td><strong>重生逆袭</strong></td><td>🔥🔥🔥🔥🔥</td><td>⭐⭐</td><td>✅ 非常适合</td><td>全年龄段，女频为主</td></tr>
+<tr><td><strong>玄幻修仙</strong></td><td>🔥🔥🔥🔥</td><td>⭐⭐⭐</td><td>✅ 适合</td><td>男频为主</td></tr>
+<tr><td><strong>都市甜宠</strong></td><td>🔥🔥🔥🔥🔥</td><td>⭐⭐</td><td>✅ 非常适合</td><td>女频为主</td></tr>
+<tr><td><strong>悬疑恐怖</strong></td><td>🔥🔥🔥🔥</td><td>⭐⭐⭐⭐</td><td>⚠️ 较难</td><td>男女均衡</td></tr>
+<tr><td><strong>末世生存</strong></td><td>🔥🔥🔥🔥</td><td>⭐⭐⭐</td><td>✅ 适合</td><td>男频为主</td></tr>
+<tr><td><strong>霸总/豪门</strong></td><td>🔥🔥🔥🔥🔥</td><td>⭐⭐</td><td>✅ 非常适合</td><td>女频为主</td></tr>
+<tr><td><strong>战神/赘婿</strong></td><td>🔥🔥🔥🔥</td><td>⭐⭐</td><td>✅ 适合</td><td>男频、下沉市场</td></tr>
+<tr><td><strong>宫斗复仇</strong></td><td>🔥🔥🔥🔥</td><td>⭐⭐⭐</td><td>⚠️ 中等</td><td>女频为主</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card success">
+  <span class="tip-icon">✅</span>
+  <span><strong>新手选材建议：</strong>优先选「重生逆袭」或「都市甜宠」——这两个题材受众最广、成本最低、故事结构最成熟。避开科幻和悬疑，因为前者场景难生成、后者对叙事节奏要求极高。</span>
+</div>
+
+<div class="explain-block how" style="margin-top:16px;">
+  <h4>🛠️ 怎么验证你的选题好不好？</h4>
+  <p><strong>三步验证法：</strong></p>
+  <p>① 去抖音/小红书搜"AI漫剧"，按"最热"排序，看近30天有哪些爆款<br>
+  ② 把这些爆款的题材、人设、结构列出来，找共同点<br>
+  ③ 在你选定的题材里，加一个<strong>独特的细节</strong>做差异化（比如"重生"太常见了，但"重生回高考前一天发现自己作弊被抓"就能让人好奇）</p>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">📖 模块二：叙事结构 — 好故事是有公式的</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">你以为好故事靠灵感？其实全世界的好故事都遵循着几种基本结构。掌握了结构，你就能稳定地产出高质量的剧本。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">结构A：微戏剧弧线 (适合 30-60 秒超短剧)</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>阶段</th><th>时间</th><th>功能</th><th>举例</th></tr></thead>
+<tbody>
+<tr><td><strong>钩子 Hook</strong></td><td>0–3s</td><td>瞬间抓住注意力</td><td>"这是第三十次，她从噩梦中惊醒。"</td></tr>
+<tr><td><strong>铺垫 Build-up</strong></td><td>3–8s</td><td>快速呈现冲突</td><td>女主发现自己被困在同一天</td></tr>
+<tr><td><strong>高潮 Climax</strong></td><td>8–12s</td><td>情感/视觉冲击最强</td><td>她在镜子里看到了另一个自己</td></tr>
+<tr><td><strong>收尾 Resolution</strong></td><td>12–15s</td><td>快速收束，留悬念</td><td>"明天，她要改变这一切。"</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">结构B：好莱坞三拍 (Hook → Build → Payoff，通用结构)</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>节拍</th><th>在做什么</th><th>常见错误</th></tr></thead>
+<tbody>
+<tr><td><strong>Hook</strong></td><td>告诉观众"为什么值得看"，承诺结果/制造张力/引发好奇</td><td>在Hook阶段做"自我介绍"——观众不想听你是谁，他们想知道"跟我有什么关系"</td></tr>
+<tr><td><strong>Build</strong></td><td>一次只发展一个想法，按清晰逻辑推进，每30秒一个转折</td><td>信息过载——同时塞入人物背景+世界观+当前事件，观众跟丢</td></tr>
+<tr><td><strong>Payoff</strong></td><td>兑现Hook中的承诺，结尾有闭环感或明确下一步</td><td>结尾太仓促或太模糊——观众觉得"就这？"</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">结构C：经典三幕剧 (适合 1-2 分钟短剧)</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>幕</th><th>功能</th><th>在你的剧里怎么做</th></tr></thead>
+<tbody>
+<tr><td><strong>第一幕·建置</strong></td><td>设定世界、引入主角、建立冲突种子</td><td>前15秒：揭示主角身份+处境+今天的"反常"</td></tr>
+<tr><td><strong>第二幕·对抗</strong></td><td>障碍升级、转折、情感加深</td><td>中间30-40秒：冲突越来越严重，主角被逼到墙角</td></tr>
+<tr><td><strong>第三幕·解决</strong></td><td>高潮对决、人物成长、情感回报</td><td>最后15-20秒：揭示真相/反转/主角的命运</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="golden-box">
+  <strong>黄金结构口诀</strong><br>
+  <span style="font-size:0.95rem;color:var(--text-secondary);">
+  钩子开头(0-3s) → 冲突升级(3-30s) → 反转高潮(30-50s) → 留白结尾(50-60s)<br>
+  <strong>每30秒必须有一个情绪转折，否则观众就划走了。</strong>
+  </span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🪝 模块三：钩子设计 — 前3秒定生死</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">抖音/快手的视频流里，用户平均只给你 <strong>0.5-1秒</strong> 来决定要不要停下滑动。钩子不强，后面写得再好也没人看到。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">五种钩子策略（附实际例子）</h4>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>策略</th><th>原理</th><th>AI漫剧示例</th></tr></thead>
+<tbody>
+<tr><td><strong>🎯 模式中断</strong></td><td>出人意料的画面/声音瞬间打破观众预期</td><td>画面从一个温馨的婚礼急转到新娘突然消失，空中只剩一件婚纱</td></tr>
+<tr><td><strong>❓ 问题钩子</strong></td><td>直接抛出观众关心的问题</td><td>"如果你重生回高考当天，但发现自己已经三年没碰过书本，你会怎么办？"</td></tr>
+<tr><td><strong>👀 结果预告</strong></td><td>先展示惊人结果，引发好奇心</td><td>画面先展示一片废墟中唯一活着的人，然后切回"三天前"</td></tr>
+<tr><td><strong>💥 大胆断言</strong></td><td>反常识、引人争议的声明</td><td>"所有人都以为魔王是坏人，但没有人知道，他才是拯救世界的那个人。"</td></tr>
+<tr><td><strong>📖 故事开场</strong></td><td>直接在冲突中开始，无铺垫</td><td>"分手吧。"一只茶杯摔碎在地上，男主的笑容僵在脸上。</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card warning">
+  <span class="tip-icon">⚠️</span>
+  <span><strong>钩子最好由你亲手写，不要依赖AI！</strong>AI 天生趋向"平均"，写不出尖锐的钩子。最扎心、最意外、最能让人停下来的那句话/那个画面——必须来自人脑的直觉。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">⚔️ 模块四：冲突设计 — 没有冲突就没有故事</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">冲突是故事的发动机。AI 漫剧的每一秒都应该有冲突在推进——不是非要打打杀杀，而是"角色想要什么，但有什么在阻碍他"。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">冲突的四种类别</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>类型</th><th>解释</th><th>AI漫剧场景</th></tr></thead>
+<tbody>
+<tr><td><strong>角色 vs 角色</strong></td><td>两个人的目标对立</td><td>男女主误会、正反派斗智、情敌争宠</td></tr>
+<tr><td><strong>角色 vs 环境</strong></td><td>外部世界制造障碍</td><td>末日生存、天灾、社会规则不公</td></tr>
+<tr><td><strong>角色 vs 自身</strong></td><td>内心挣扎、道德困境</td><td>发现了真相但不知道该不该说、复仇还是宽恕</td></tr>
+<tr><td><strong>角色 vs 社会/系统</strong></td><td>对抗更大的力量</td><td>打破规则、挑战权威、"小人物对抗大系统"</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">冲突升级五步原则</h4>
+<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">
+  <li>明确主角目标（他想要什么？）→ 创建障碍</li>
+  <li>构建对抗力量（谁/什么阻止他？）→ 让阻碍越来越强</li>
+  <li>设置转折点：主角以为解决了→发现更大的问题</li>
+  <li>情感冲突 + 利益冲突 + 价值观冲突 叠加</li>
+  <li>每一拍都比前一拍更紧张——<strong>永远不要让观众松口气</strong></li>
+</ol>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🔄 模块五：反转设计 — 让观众"卧槽"的一刻</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">反转是AI漫剧最有力的武器。一个好的反转会让观众反复重看、主动分享、在评论区讨论。</p>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>反转类型</th><th>怎么做</th><th>AI漫剧示例</th></tr></thead>
+<tbody>
+<tr><td><strong>身份反转</strong></td><td>角色的真实身份被揭露</td><td>一直帮助女主的温暖前辈，其实是幕后反派</td></tr>
+<tr><td><strong>真相反转</strong></td><td>观众/主角以为的真相被颠覆</td><td>以为自己被抛弃了的女主，发现对方其实在暗中保护了她十年</td></tr>
+<tr><td><strong>动机反转</strong></td><td>角色行动的真正原因被揭露</td><td>表面上霸道的老板，其实是在用严厉的方式培养女王接班</td></tr>
+<tr><td><strong>处境反转</strong></td><td>权力/命运关系瞬间逆转</td><td>原本高高在上的反派突然跪下求饶，弱者变成了强者</td></tr>
+<tr><td><strong>因果反转</strong></td><td>恶作剧反弹到始作俑者身上</td><td>下毒的人自己中毒、设陷阱的人自己掉进去</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card tip">
+  <span class="tip-icon">🎯</span>
+  <span><strong>反转的黄金原则：</strong>① 反转必须在前文有伏笔（观众回看时能发现线索）；② 反转应该改变观众对整个故事的理解；③ 每个剧本至少保留<strong>1-2个关键反转点</strong>。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🤖 模块六：用 AI 写剧本 — 提示词精讲</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">大多数人让 AI 写剧本时只输入了一句话："给我写一个古装AI漫剧剧本"。然后抱怨 AI 写得太烂。问题在于——<strong>你没有教 AI 什么是好剧本</strong>。下面这个五步提示词框架，是你需要教给 AI 的所有东西。</p>
+
+<div class="prompt-block">
+  <div class="prompt-header"><span>🤖 剧本生成 — 完整五步提示词（复制到 DeepSeek/ChatGPT）</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">【第一步：角色定义】
+你是一位专业短视频编剧，擅长打造高留存率的开篇钩子、设计紧凑的冲突升级、安排意想不到的情节反转、创作自然的口语化对白。
+
+【第二步：核心信息】
+- 题材：[重生逆袭 / 玄幻修仙 / 都市甜宠 / 末世生存 / 霸总]
+- 时长：约60-90秒
+- 平台：抖音（竖屏9:16）
+- 目标观众：[例如：18-35岁女性]
+- 核心情感基调：[爽 / 虐 / 甜 / 燃 / 悬疑]
+
+【第三步：结构要求】
+请严格按照以下结构生成剧本，每个节拍标注时间码：
+1. 钩子 (0-5s)：模式中断型开头，用出人意料的画面+一句话抓住观众
+2. 建置 (5-15s)：快速揭示主角处境+今天的"反常"
+3. 冲突升级 (15-45s)：障碍从弱到强，主角一次次被逼退
+4. 反转/高潮 (45-70s)：颠覆观众认知的一刻，情绪爆发
+5. 留白结尾 (70-90s)：用一句话/一个画面留悬念，引导"下集"
+
+要求每30秒至少有一个情绪转折点。
+
+【第四步：风格约束】
+- 语言必须口语化，每句对白不超过15个字
+- 不要出现"AI腔"：比如"让我们回顾""标志性的是""在这个过程中"等
+- 对白推动剧情或揭示性格，不做单纯说明
+- 参考语气：朋友之间说悄悄话的感觉
+
+【第五步：输出格式】
+请以标准剧本格式输出，包含：
+- 每场戏的场景标题（地点/时间）
+- 角色动作描述（具体的外部动作，不能是心里描写）
+- 对白
+- [画外音/旁白标注]
+- [关键镜头建议（景别+运镜）]
+- [音效/氛围提示]
+
+同时附带每个角色的人物设定描述（外貌、服装、性格特征）</div>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🤝 模块七：人机协作工作流 — AI 不是替你写，是帮你写</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">把剧本从头到尾全丢给 AI = 得到一坨废话。正确的做法是分步协作，每一步都由你来把关质量。</p>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>步骤</th><th>谁做</th><th>做什么</th></tr></thead>
+<tbody>
+<tr><td><strong>1. 竞品研究</strong></td><td>你+AI</td><td>用AI分析"抖音上最近30天最火的AI漫剧，总结它们的共同规律"</td></tr>
+<tr><td><strong>2. 创意头脑风暴</strong></td><td>AI</td><td>让AI生成10个不同角度的故事大纲，你选最有感觉的一个</td></tr>
+<tr><td><strong>3. 写钩子</strong></td><td>👤 你</td><td>你亲手写出前3秒的钩子画面+台词——这是AI最弱的地方</td></tr>
+<tr><td><strong>4. 剧本初稿</strong></td><td>AI</td><td>用上面的五步提示词，让AI基于你的钩子扩展出完整剧本</td></tr>
+<tr><td><strong>5. 精修</strong></td><td>👤 你</td><td>读一遍，把"AI味"的句子改成口语，删掉逻辑跳跃，调整节奏</td></tr>
+<tr><td><strong>6. 分镜转换</strong></td><td>AI</td><td>把精修后的剧本发给AI："按以下格式拆成15-25个分镜……"</td></tr>
+<tr><td><strong>7. 分镜检查</strong></td><td>👤 你</td><td>检查分镜的节奏感（景别搭配是否单调、有没有全中景的问题）</td></tr>
+</tbody>
+</table>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🗣️ 模块八：如何避免"AI味"</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">AI 生成的剧本有一个致命问题——读起来不像人说的话。观众听到"在这个过程中，我深刻意识到了……"这种台词，一秒就会划走。</p>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th style="width:50%">❌ AI味的写法</th><th style="width:50%">✅ 人味的改法</th></tr></thead>
+<tbody>
+<tr><td>"在这个关键时刻，我做出了一个改变我一生的决定。"</td><td>"就现在。赌一把。"</td></tr>
+<tr><td>"他的眼神中透露出一丝不易察觉的忧伤。"</td><td>"他别过脸去。"</td></tr>
+<tr><td>"经过这段时间的相处，我们的关系发生了质的变化。"</td><td>"他给我倒了杯水。第一次。"</td></tr>
+<tr><td>"这是一个标志性的时刻，预示着我们团队的新篇章。"</td><td>"从今天起，这里我说了算。"</td></tr>
+<tr><td>"让我们回顾一下过去发生的一切……"</td><td>"你还记得那天吗？"</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">去AI味的五个技巧</h4>
+<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">
+  <li><strong>每句对白不超过15个字</strong> — 超过就拆成两句，或者删掉废话</li>
+  <li><strong>把「形容词」换成「动作」</strong> — 不写"他很感动"，写"他别过脸，抬手揉了揉眼睛"</li>
+  <li><strong>删掉所有「标志性」「里程碑」「过程中」</strong> — 这些词是AI味的核心信号</li>
+  <li><strong>把书面语改成口语</strong> — "为何"→"为什么"，"或许"→"也许"，"如此"→"这么"</li>
+  <li><strong>大声读一遍</strong> — 如果你读不出来/读得别扭/读起来不像正常人说的话，就改写</li>
+</ol>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">📜 模块九：完整剧本范例（60秒·重生逆袭题材）</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">下面是一个可以直接参考的完整剧本，标注了每个节拍的时间码和设计意图。你可以用这个模板来写自己的剧。</p>
+
+<div class="prompt-block">
+  <div class="prompt-header"><span>🎬 《重生之高考前一天》第1集·完整剧本</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">=== 第1集：睁开眼，我在高考前一天 ===
+
+[0-3s HOOK · 全景 · 镜头快速推进]
+【场景：一间凌乱的高中生卧室，墙上贴着高考倒计时：1天】
+女主陆薇（18岁，马尾辫，校服）猛然从书桌前惊醒，瞳孔剧烈收缩。
+她低头看了看自己的手——皮肤白皙、指节完好。
+她的声音颤抖：不对……这不对。我的手上应该有烧伤的疤。
+画外音（女主内心，低沉）：我死过一次。在工厂的火灾里。那是……十年后的事。
+
+[3-8s · 近景 → 特写 · 固定镜头]
+陆薇疯狂地翻桌上的日历、手机、准考证——所有证据都在告诉她：今天真的是高考前一天。
+她怔怔地看着镜中的自己：十八岁。瘦弱。满脸青春痘。和记忆中那个被工厂机器磨出满手老茧、被烟熏哑嗓子的三十岁女人判若两人。
+特写：她攥紧准考证，指节发白。
+她的眼睛从迷茫转为一种近乎可怕的冷静。
+
+[8-20s · 中景 · 跟镜头]
+陆薇站起身，推开卧室门。客厅传来熟悉的声音——她妈妈在打电话。
+（画外音，回忆杀）：十年前，她高考发挥失常，去了一个烂大专。毕业后找不到工作，进了一个血汗工厂。十年后死在一场火灾里，新闻只占了报纸角落的三行字。
+陆薇（内心，冰冷）：这一次，我不要那三行字。
+她路过客厅，妈妈挂掉电话，疲惫地对她笑了笑：薇薇，早点睡，明天好好考。
+陆薇（看着妈妈的白发，声音哽了一瞬）：……好。
+
+[20-40s · 中景 → 全景 · 镜头渐近]
+夜深。陆薇坐在书桌前，周围堆满了书——但她不是在复习。
+她在写一份名单。名单上的人：学校的副校长、当年的监考老师、一个她不认识的名字。
+旁边的小字：前世的她不知道——她的高考成绩被调换了。调包者换走了她的成绩，顶替了她的人生。顶替她的那个人，现在是互联网公司CEO，身家百亿。
+陆薇（嘴角勾起一个冷的弧度）：既然让我回来了……那这笔账，一个一个算。
+窗外划过一道闪电，映亮了她的脸——十八岁的脸上，有一双三十岁人的眼睛。
+
+[40-55s · 特写 → 远景 · 慢拉远]
+第二天清晨，考场门口。人群熙熙攘攘。
+陆薇穿着干净的校服，背着书包，站在考场门口。
+特写：阳光打在她脸上。她仰头看着学校的牌匾。
+陆薇（内心，平静）：上辈子，我从这扇门走了出去，走了十年，走进了一场大火。
+她深呼吸一口，走进考场。
+
+[55-60s · 大远景 · 固定镜头]
+空镜：教学楼全景，广播响起：请考生进入考场。
+黑屏。
+字幕缓缓浮现：这一次，她不是来考试的。
+（停顿两秒）
+下集预告字幕：第2集 — 她交了一张白卷。
+</div>
+</div>
+
+<div class="tip-card tip">
+  <span class="tip-icon">💡</span>
+  <span><strong>拆解这个剧本的设计：</strong>① 00:00-00:03 用"女主从噩梦中惊醒"制造模式中断钩子；② 00:03-00:08 用镜中对比建立重生设定（不靠解说词，靠视觉）；③ 00:08-00:20 植入情感锚点（妈妈的白发）；④ 00:20-00:40 首次真相反转（成绩被调换）；⑤ 00:40-00:55 用反差建立角色魅力（十八岁的脸上有三十岁的眼睛）；⑥ 00:55-01:00 二次反转（她是来复仇的，不是来考试的）+ 下集钩子（交白卷）。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🔧 模块十：番茄达人中心 — 免费拿小说版权</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">如果你不想自己写，番茄达人中心是字节跳动的短剧IP授权平台——<strong>完全免费、零粉丝就能申请</strong>。</p>
+
+<div class="explain-block how">
+  <h4>🛠️ 操作路径</h4>
+  <p><strong>抖音APP → 我 → 创作者服务中心 → 短剧版权中心 → 漫剧专区 → 筛选申请</strong></p>
+  <p style="margin-top:8px;"><strong>版权商城：</strong>mall.fanqiecopyright.com</p>
+  <p><strong>额度：</strong>每月 1 次长篇 + 5 次短篇</p>
+  <p><strong>热门题材：</strong>男频（都市逆袭/战神/赘婿/修仙）、女频（重生甜宠/宫斗复仇）</p>
+</div>
+
+<div class="tip-card success">
+  <span class="tip-icon">✅</span>
+  <span><strong>申请通过后你有权将小说改编为 AI 漫剧发布到抖音等平台，赚取流量分成。</strong>传统动画成本 10 万元+1 个月，AI 漫剧压缩到 1.5 万元级别+1 周。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🐛 模块十一：常见剧本问题 & 修改方案</h2>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>问题</th><th>诊断</th><th>修改方法</th></tr></thead>
+<tbody>
+<tr><td>开头太慢</td><td>前5秒在介绍背景而不是冲突</td><td>直接在冲突中开始。把背景信息打碎塞入对白和画面细节</td></tr>
+<tr><td>全是内心戏</td><td>"她感到悲从中来""他沉浸在过去"——观众看不到</td><td>改成外部动作：哭、砸东西、不说话只是盯着某处</td></tr>
+<tr><td>对话太书面</td><td>每句话都像在写作文</td><td>删到15字以内，加语气词。让角色像真人一样说话</td></tr>
+<tr><td>缺少转折</td><td>20秒过去了情绪没有变化</td><td>每30秒插入一个新信息/新矛盾/新表情</td></tr>
+<tr><td>结尾没收</td><td>"然后呢？"——观众想问但不会说</td><td>结尾留一个明确的悬念钩子：「下集预告」+ 一个绝对想看的画面</td></tr>
+<tr><td>角色没记忆点</td><td>看完说不出主角有什么特征</td><td>给主角一个"一眼认出的特征"：永远戴着红围巾/左脸有疤/只会说半句话</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="golden-box" style="margin-top:32px;">
+  <strong>📏 长度参考</strong><br>
+  <span style="font-size:0.95rem;color:var(--text-secondary);">
+  30 秒 → 约 80-120 字 / 8-12 个镜头<br>
+  1 分钟 → 约 180-250 字 / 15-25 个镜头<br>
+  2 分钟 → 约 350-500 字 / 30-50 个镜头
+  </span>
+</div>
+`
+};
+
+// -- Step 2: 角色设计 --
+STEPS['step2'] = {
+  number:'02', icon:'👤', title:'角色设计 — 给 AI 一份不会弄丢的"视觉身份证"', label:'角色"身份证"',
+  html: `
+<div class="step-hero">
+  <div class="step-number">👤 02</div>
+  <div class="step-title">角色设计 — 给 AI 一份不会弄丢的"视觉身份证"</div>
+  <div class="step-subtitle">你说"保持一致"，AI 说"你说的是谁？"——这是 AI 漫剧最大的技术难点。</div>
+</div>
+
+<div class="explain-block what">
+  <h4>🔍 这是什么？</h4>
+  <p><strong>角色设计</strong>，就是把文字剧本里的角色，转化为一套 <strong>AI 能稳定复现的视觉标准</strong>。这个概念源自动画工业的「角色三视图」（Character Design Sheet）：</p>
+</div>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>视图</th><th>作用</th><th>在 AI 工作流中对应什么</th></tr></thead>
+<tbody>
+<tr><td><strong>正面图</strong></td><td>脸部特征、发型、五官比例</td><td>即梦/ Midjourney 生成的正面定妆照</td></tr>
+<tr><td><strong>侧面/半侧图</strong></td><td>头型、鼻梁、下颌线轮廓</td><td>同一角色的多角度生成图</td></tr>
+<tr><td><strong>背面图 + 全身</strong></td><td>体型、服装、站姿、身高比例</td><td>用于全景镜头的人物参考</td></tr>
+<tr><td><strong>表情集</strong></td><td>喜怒哀乐的不同状态</td><td>用于特写镜头、情感戏的参考</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="golden-box">
+  <strong>角色设计 = 选定外貌 → 固化为 3-5 张参考图 → 在所有分镜中锚定</strong>
+</div>
+
+<div class="explain-block why">
+  <h4>💡 为什么这是最关键的一步？</h4>
+  <p><strong>AI 没有记忆。</strong>你上一张图生成一个黑发红裙的女孩，下一张它完全不记得她长什么样。不做角色设计的后果：第一幕瓜子脸→第二幕圆脸（弹幕"这谁？"）、衣服颜色每镜在变（"换装秀？"）、发型飘忽不定（"发型比剧情变化还快"）→ 观众直接弃剧。</p>
+  <p style="margin-top:8px;">角色设计的目的不是"画出好看的人"，而是<strong>锁死变量</strong>——让 AI 每次画这个角色时，输入条件完全一致。</p>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🛠️ 方法一：即梦参考图法（零门槛，推荐新手）</h2>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">第 1 步：生成角色定妆照</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">打开 <strong>即梦 AI</strong>（jimeng.jianying.com，抖音号登录）→「图片生成」→ 模型选「图片 4.0」→ 比例选「9:16」→ 输入提示词：</p>
+
+<div class="prompt-block">
+  <div class="prompt-header"><span>🎨 角色提示词万能公式</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">[性别][年龄段]，[脸型]，[发型+发色]，[眼睛特征]，[肤色]，
+穿着[服装描述]，[配饰]，[气质/表情倾向]，
+[画风关键词]，[光线]，纯白背景，角色设定图，三视图</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">完整示例（古风女主）：</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🏯 古风仙侠女主</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">年轻女性，22岁左右，鹅蛋脸，黑色长直发及腰，齐刘海，
+紫色杏眼双眼皮，雪白肤色，
+穿着白色古风长裙，红色腰带，袖口金色刺绣，腰间挂白玉佩，
+清冷疏离气质，眉眼间带着淡淡忧愁，
+二次元赛璐璐风格，柔光，纯白背景，角色设定图，三视图，全身站立</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">完整示例（都市男主）：</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🏙️ 都市甜宠男主</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">年轻男性，25岁左右，轮廓分明的方脸，深棕色短发微乱，
+深褐色眼睛眼神锐利，小麦色肤色，
+穿着洗旧的白色T恤、深蓝色牛仔裤、黑色马丁靴，
+右耳戴一颗银色耳钉，下巴有淡淡胡茬，
+痞帅但眼神温柔，有市井烟火气，
+韩式条漫风格，自然光，纯白背景，角色设定图，全身站立</div>
+</div>
+
+<div class="prompt-block">
+  <div class="prompt-header"><span>🌐 英文二次元模板（Midjourney / SD）</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">3D chibi character, silver short hair, sharp blue eyes,
+oversized grey hoodie with cat ear design, black fingerless gloves,
+young male, slim build,
+three views (front, side, back), full body standing pose,
+clean white background, anime style, cel shading, high quality, 8K --ar 16:9</div>
+</div>
+
+<p style="font-size:0.85rem;color:var(--text-muted);">💡 多生成几次（每次结果不同），选最满意的一张保存为 <code>角色名_定妆照.png</code></p>
+
+<h4 style="font-size:0.95rem;margin:20px 0 8px;">第 2 步：建立多角度参考图库</h4>
+<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">
+  <li>在即梦输入框左侧点击<strong>上传参考图按钮</strong></li>
+  <li>上传刚才的正面定妆照</li>
+  <li>把提示词中「正面站立」改为「侧面站立（身体朝右）」→ 生成侧面图</li>
+  <li>再改为「背对镜头，背面站立」→ 生成背面图</li>
+  <li>生成一张「面部特写，表情自然，从胸口到头顶」→ 近景表情参考</li>
+</ol>
+
+<h4 style="font-size:0.95rem;margin:20px 0 8px;">第 3 步：建立"角色身份证"文档</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">把所有参考图存入同一文件夹，命名规则 <code>[角色名]_定妆</code>，包含：正面/侧面/背面/表情特写/全身各一张。</p>
+
+<h4 style="font-size:0.95rem;margin:20px 0 8px;">第 4 步：在所有分镜中使用</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">后续每个分镜生图时，<strong>都上传这些参考图</strong>，并在提示词中重复角色的核心外貌关键词。</p>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🎯 方法二：Midjourney --cref 方案（画质最好，需付费）</h2>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>参数</th><th>作用</th><th>范围</th><th>推荐值</th></tr></thead>
+<tbody>
+<tr><td><code>--cref [URL]</code></td><td>Character Reference：锁定人物外观</td><td>1-3 张图片 URL</td><td>2 张（正面 + 侧面）</td></tr>
+<tr><td><code>--cw</code></td><td>Character Weight：参考影响力</td><td>0-100</td><td>日常 50-80，换装 0-30</td></tr>
+<tr><td><code>--sref [URL]</code></td><td>Style Reference：锁定画风和色调</td><td>1 张风格图</td><td>1 张</td></tr>
+<tr><td><code>--seed [数字]</code></td><td>固定随机种子</td><td>任意整数</td><td>记录首张满意图的 seed</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card tip">
+  <span class="tip-icon">💡</span>
+  <span><strong>MJ 小贴士：</strong><code>--cw 0</code> = 只锁脸，可换装；<code>--cw 100</code> = 全套锁定；V7 的 <code>--oref</code> 比 V6 <code>--cref</code> 更好用但消耗 2 倍 GPU 时间。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">⚙️ 方法三：ComfyUI + IP-Adapter（专业级，免费但需显卡）</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);">硬件要求：最低 8GB 显存（RTX 3060+），推荐 12GB+。安装：github.com/comfyanonymous/ComfyUI</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">IP-Adapter 核心参数</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>参数</th><th>推荐值</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>weight</strong></td><td>0.6-0.8</td><td>面部特写 0.8，全身 0.6，动漫 0.4-0.7</td></tr>
+<tr><td><strong>noise</strong></td><td>0.2</td><td>太高变脸，太低表情僵硬</td></tr>
+<tr><td><strong>clip_vision</strong></td><td>ViT-H-14</td><td>兼容性最好</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="golden-box">
+  <strong>工业级三件套叠加方案</strong><br>
+  <span style="font-size:0.9rem;color:var(--text-secondary);">
+  LoRA（锁身份+画风，0.6-0.8）→ IP-Adapter FaceID（锁面部，0.6-0.8）→ ControlNet OpenPose（锁姿势，0.7-0.9）<br>
+  <strong>一致性可达 90-95%，社区公认的工业级标准。</strong>
+  </span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🏗️ 方法四：训练专属 LoRA（终极方案，IP 化运营）</h2>
+<p style="font-size:0.9rem;color:var(--text-secondary);">当角色要在 <strong>50 集以上</strong> 连载中反复出现时，值得训练专属 LoRA。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">数据集要求</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>维度</th><th>标准</th></tr></thead>
+<tbody>
+<tr><td>图片数量</td><td>15-30 张高质量图（质量 > 数量）</td></tr>
+<tr><td>角度覆盖</td><td>正面 ×2-3，3/4 侧 ×4-5，侧面 ×2，仰/俯 ×2-3</td></tr>
+<tr><td>表情多样</td><td>自然 ×3-4，微笑 ×3-4，严肃 ×2-3</td></tr>
+<tr><td>距离变化</td><td>脸部特写 ×5-7，头像 ×5-7，半身 ×3-4，全身 ×2-3</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">关键训练参数</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>参数</th><th>推荐值</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>Network Rank</td><td>32-64</td><td>32 起步，更高易过拟合</td></tr>
+<tr><td>Network Alpha</td><td>16-32</td><td>通常为 rank 的一半</td></tr>
+<tr><td>学习率</td><td>1e-4</td><td>稳定起点</td></tr>
+<tr><td>Epochs</td><td>10-15</td><td>15-30 张图最佳</td></tr>
+<tr><td>基础模型</td><td>Pony Diffusion V6 / Juggernaut XL</td><td>动漫 / 写实</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card warning">
+  <span class="tip-icon">⚠️</span>
+  <span><strong>判断训练是否成功：</strong>✅ 像同一个人但不是同一张照片；✅ 触发词稳定召唤角色；❌ 和训练图一模一样 = 过拟合，降低 rank；❌ 触发词无效 = 欠拟合，增加 epochs。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">📊 四种方案完整对比</h2>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>方案</th><th>原理</th><th>一致性</th><th>门槛</th><th>成本</th><th>适用场景</th></tr></thead>
+<tbody>
+<tr><td><strong>即梦参考图法</strong></td><td>即梦内置参考功能</td><td>~70%</td><td>⭐ 零门槛</td><td>免费</td><td>1-3分钟短剧/个人练习</td></tr>
+<tr><td><strong>Midjourney --cref</strong></td><td>参数锁角色+画风</td><td>~85%</td><td>⭐⭐</td><td>$30/月</td><td>中高质量短剧</td></tr>
+<tr><td><strong>ComfyUI IP-Adapter</strong></td><td>三件套叠加锁脸</td><td>~90%</td><td>⭐⭐⭐</td><td>免费(需显卡)</td><td>高质量系列剧</td></tr>
+<tr><td><strong>训练专属 LoRA</strong></td><td>定制轻量角色模型</td><td>~95%+</td><td>⭐⭐⭐⭐</td><td>5-20元/LoRA</td><td>IP化运营/50集+</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card success">
+  <span class="tip-icon">✅</span>
+  <span><strong>新手建议：</strong>用即梦参考图法入门，做到第 3-5 个作品时会自然感受到瓶颈，再升级到 Midjourney 或 ComfyUI。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🎯 好角色设计的 3 个标准</h2>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>✅ 好的设计</th><th>❌ 差的设计</th></tr></thead>
+<tbody>
+<tr><td>「红框圆眼镜 + 右眼角泪痣 + 不对称短发」</td><td>「一个好看的女生」</td></tr>
+<tr><td>「左脸有一道从眉毛到下巴的暗红伤疤」</td><td>「忧郁气质的男主角」</td></tr>
+<tr><td>「永远戴一条银色十字架项链」</td><td>「时尚穿搭」</td></tr>
+</tbody>
+</table>
+</div>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin:12px 0;">AI 更容易锚定<strong>具体的、可文本描述的特征</strong>，而非模糊的美感。跨角度辨识的三大要素：<strong>发型轮廓</strong>（背面也能认）、<strong>服装颜色搭配</strong>（远处也能分辨）、<strong>标志性配饰</strong>（任何角度都一样）。</p>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🐛 做坏了怎么办？</h2>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>问题</th><th>症状</th><th>诊断</th><th>解决方案</th></tr></thead>
+<tbody>
+<tr><td><strong>脸盲症</strong></td><td>每张图长得不一样</td><td>参考图未上传/权重不够</td><td>确认参考图已上传；减少发型变化描述；在提示词开头重复角色名</td></tr>
+<tr><td><strong>服装漂移</strong></td><td>衣服颜色/款式变了</td><td>服装关键词不够强</td><td>三次重复关键服装要素（"红色腰带，红色腰带，红色腰带"）</td></tr>
+<tr><td><strong>画风不统一</strong></td><td>一张写实一张二次元</td><td>未锁定画风关键词</td><td>画风关键词放在提示词最前面，所有参考图风格一致</td></tr>
+<tr><td><strong>表情僵硬</strong></td><td>所有图同一表情</td><td>定妆照中性脸，没加表情词</td><td>加入「嘴角微扬，眼神柔和」「眉头紧锁，嘴唇紧抿」</td></tr>
+<tr><td><strong>侧脸崩</strong></td><td>正面像侧面不像</td><td>参考图只有正面</td><td>补充侧面参考图，正面+侧面同时上传</td></tr>
+<tr><td><strong>多角色混淆</strong></td><td>A的脸出现在B身上</td><td>AI混淆了两个角色</td><td>各自分开发送参考图，提示词标「图左：A；图右：B」</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card tip" style="margin-top:20px;">
+  <span class="tip-icon">📖</span>
+  <span><strong>延伸资源：</strong>B 站搜「即梦角色设计」；<a href="https://apatero.com/zh/blog/anime-character-consistency-complete-guide-2025" target="_blank">Apatero 动漫角色一致性指南</a>；<a href="https://www.imaginepro.ai/blog/2025/7/midjourney-character-reference-guide" target="_blank">Midjourney --cref 完整指南</a></span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🎨 配色心理学 — 色彩黄金三角</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">成功的角色设计离不开精心设计的<strong>发色、瞳色、服装色</strong>组合——即"色彩黄金三角"。色彩是 AI 漫剧的"第一语言"，在短视频快节奏传播中，色彩识别度高于形态细节。</p>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>角色类型</th><th>发色</th><th>瞳色</th><th>服装色</th><th>情绪语言</th></tr></thead>
+<tbody>
+<tr><td>阳光热血型</td><td>暖棕/金色</td><td>琥珀色</td><td>橙红色系</td><td>活力、温暖</td></tr>
+<tr><td>冷酷孤傲型</td><td>黑/银白</td><td>冰蓝/紫色</td><td>深蓝/黑</td><td>距离感、神秘</td></tr>
+<tr><td>温柔治愈型</td><td>浅棕/樱花粉</td><td>翠绿/天蓝</td><td>米白/浅粉</td><td>亲和力、慰藉</td></tr>
+<tr><td>邪魅反派型</td><td>深紫/暗红</td><td>血红/金色</td><td>暗紫/黑</td><td>危险、诱惑</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">角色团队差异化配色</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>角色定位</th><th>色调</th><th>材质</th><th>视觉印象</th></tr></thead>
+<tbody>
+<tr><td>战力担当</td><td>冷色调(蓝/黑)</td><td>硬材质(金属/皮革)</td><td>可靠、强大</td></tr>
+<tr><td>辅助担当</td><td>暖色调(粉/橙)</td><td>软材质(棉麻/针织)</td><td>亲和、治愈</td></tr>
+<tr><td>智斗担当</td><td>中性色(白/灰)</td><td>精致(丝绸/细金属)</td><td>理性、优雅</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card tip">
+  <span class="tip-icon">🎯</span>
+  <span><strong>色彩对冲技巧：</strong>AI 倾向于生成和谐平均化的画面。有意制造色彩冲突（如蓝调场景+橙色焦点物）是消除"AI味"、制造电影感的关键。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🔺 形状语言与剪影识别</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;"><strong>迪士尼黄金法则：</strong>如果角色的纯黑剪影能被一眼认出来，这个设计就成功了。</p>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>形状</th><th>心理暗示</th><th>典型角色</th><th>AI漫剧适用</th></tr></thead>
+<tbody>
+<tr><td><strong>圆形/曲线</strong></td><td>友好、天真、柔软</td><td>治愈系女主、萌宠</td><td>甜宠剧女主</td></tr>
+<tr><td><strong>方形/直角</strong></td><td>稳定、可靠、强壮</td><td>战士、守护者</td><td>武力担当</td></tr>
+<tr><td><strong>三角形/锐角</strong></td><td>危险、狡猾、攻击性</td><td>反派、刺客</td><td>反派角色</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card success">
+  <span class="tip-icon">✅</span>
+  <span><strong>剪影测试：</strong>角色图调成全黑→只看剪影能认出来吗？通不过就加一个轮廓鲜明的配饰（披风、独特头饰、不对称发型）。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">👗 服装设计与材质描述</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">在 AI 提示词中，<strong>材质描述比款式名称更重要</strong>。AI 不理解"时尚穿搭"，但它理解材质的光学属性。</p>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>材质</th><th>英文关键词</th><th>视觉特征（告诉AI的关键）</th></tr></thead>
+<tbody>
+<tr><td><strong>丝绸/缎面</strong></td><td><code>silk, satin</code></td><td>柔和高光、流动垂坠感</td></tr>
+<tr><td><strong>皮革</strong></td><td><code>leather, distressed cowhide</code></td><td>细腻纹理、微油光泽</td></tr>
+<tr><td><strong>天鹅绒</strong></td><td><code>velvet</code></td><td>深邃柔光、哑光奢华</td></tr>
+<tr><td><strong>棉麻</strong></td><td><code>linen, cotton</code></td><td>哑光颗粒感、自然漫反射</td></tr>
+<tr><td><strong>金属/盔甲</strong></td><td><code>metallic, brushed steel, oxidized copper</code></td><td>镜面反射/拉丝/铜绿锈蚀</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">服装属性三层描述法</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>👗 三层描述公式</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">第一层·版型：立领 / V领 / 圆领 / 中式交领 / A型 / H型 / 收腰 / 及膝
+第二层·材质：丝绸光泽 / 棉麻哑光 / 皮革纹理 / 金属反光
+第三层·锚点：左胸徽章是金色鹰 / 右手袖口有磨损 / 腰带扣是方形银扣</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">各题材服装模板</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🏯 古风仙侠</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">flowing white silk robe with blue embroidered cloud patterns,
+wide sleeves billowing in wind, jade pendant at waist,
+layered hanfu with cross-collar (交领右衽),
+subtle silver thread phoenix motifs at hem</div>
+</div>
+
+<div class="prompt-block">
+  <div class="prompt-header"><span>🌆 都市甜宠</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">cream wool-blend oversized knit sweater, slightly off-shoulder,
+dark blue skinny jeans, white leather sneakers,
+delicate gold chain necklace, minimal makeup,
+natural daylight, soft shadows</div>
+</div>
+
+<div class="tip-card tip">
+  <span class="tip-icon">💡</span>
+  <span><strong>"材质参数收敛法"：</strong>不要写 <code>leather jacket</code>，写成 <code>distressed cowhide texture, fine grain, subtle oily sheen, dark brown with reddish undertone</code>——AI 每次理解的才是同一个"材质指纹"。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">👥 多角色场景管理</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">当画面里出现两个以上的角色时，AI 最容易翻车——角色混淆、特征串位、某人消失不见。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">分区描述法（最可靠）</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>👥 多人场景提示词模板</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">图左（画面左侧）：[角色A完整描述]，面向右侧，侧脸对镜头。
+图右（画面右侧）：[角色B完整描述]，面向左侧，侧脸对镜头。
+两人面对面站立，相距约1米，气氛紧张对峙。
+背景：竹林深处，黄昏逆光，金色轮廓光。</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">"正反打"对话技巧（避免多人AI翻车）</h4>
+<p style="font-size:0.88rem;color:var(--text-muted);">镜头1：近景·A说话（画面只有A）→ 镜头2：近景·B回应（画面只有B）→ 镜头3：中景·两人同框（交代空间关系）→ 镜头4：特写·A反应 → 镜头5：特写·B反应。<strong>90% 对话用单人镜头，10% 双人全景建立空间。既避免翻车，又有电影感。</strong></p>
+`
+};
+
+// -- Steps 3-9 + tools + bugs + resources (compact for file size) --
+const STEP_TEMPLATES = {
+  step3: { number:'03',icon:'🏠',title:'场景设计 — 让环境"不乱变"',label:'环境不乱变',
+    content:`
+<div class="step-hero">
+  <div class="step-number">🏠 03</div>
+  <div class="step-title">场景设计 — 让环境"不乱变"</div>
+  <div class="step-subtitle">第3镜的窗户在左边，第5镜跑到了右边——观众可能说不清哪里不对，但他们的大脑已经标记了"这不对"。</div>
+</div>
+
+<div class="explain-block what">
+  <h4>🔍 场景母代码——场景的"身份证"</h4>
+  <p>场景设计就是把剧本里每个地点"拍一张身份证"——锁定它的<strong>标志物、光源、色调、空间结构</strong>。之后生成这个场景的任何镜头时，<strong>原封不动</strong>粘贴同一段母代码。场景不一致虽然观众不一定能说清楚，但<strong>会让他们感到"不舒服"、"出戏"、"有点假"</strong>——这就是潜意识的穿帮。</p>
+</div>
+
+<div class="explain-block why">
+  <h4>💡 为什么场景是第二大翻车点？</h4>
+  <p>第一镜卧室床头柜白色 → 第三镜变棕色 → 弹幕"这个床头柜会变色"；第一镜窗户在左 → 第五镜跑右边 → 空间感崩塌；咖啡馆从暖黄变冷白 → 氛围断裂。场景设计的目的 = <strong>锁死背景变量</strong>，让观众的大脑把注意力放在你的角色和故事上。</p>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">📐 场景母代码四要素</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">四个要素<strong>必须写全</strong>，少一个都可能出问题：</p>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>要素</th><th>通俗理解</th><th>必须写到什么程度</th><th>示例</th></tr></thead>
+<tbody>
+<tr><td><strong>标志性物体</strong></td><td>场景里最显眼的东西</td><td>具体到颜色+材质+位置</td><td><code>Red vintage cash register on the wooden counter</code></td></tr>
+<tr><td><strong>光源与时间</strong></td><td>什么时候、什么光</td><td>时间+光源方向+质感</td><td><code>Afternoon sunlight, 45-degree from left window, soft shadows</code></td></tr>
+<tr><td><strong>色调风格</strong></td><td>整体配色方案</td><td>主色+辅色+风格词</td><td><code>Warm amber palette, brick red + cream + dark wood</code></td></tr>
+<tr><td><strong>空间结构</strong></td><td>窗户/门/天花板在哪</td><td>关键建筑元素的方位</td><td><code>High ceiling, large window on left wall, door on right</code></td></tr>
+</tbody>
+</table>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🛠️ 四步操作流程</h2>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">第1步：列出剧本里所有场景</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">一部1-2分钟的AI漫剧通常只需<strong>2-3个场景</strong>（卧室/咖啡厅/街道等）。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">第2步：给每个场景写母代码</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🏠 咖啡馆场景母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">温馨咖啡馆，复古工业风，裸露红砖墙面，吧台上有一台黄铜色复古收银机，
+午后阳光从左墙大落地窗45度照入，暖琥珀色调，深棕色木地板，
+高天花板，左侧大窗，右侧吧台，深处通往后厨的门。</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">第3步：生成场景母版图</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">即梦→图片生成→输入母代码→多生成几张→挑最满意的保存为<code>场景名_母版.jpg</code></p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">第4步：在所有分镜中复用</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>镜头</th><th>提示词结构</th></tr></thead>
+<tbody>
+<tr><td>女主喝咖啡（特写）</td><td><code>Silver hair girl drinking coffee, close up, + [场景母代码]</code></td></tr>
+<tr><td>男主推门（远景）</td><td><code>Man entering door, wide shot, + [场景母代码]</code></td></tr>
+<tr><td>两人对话（中景）</td><td><code>Two people talking at counter, medium shot, + [场景母代码]</code></td></tr>
+</tbody>
+</table>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🏠 场景母代码模板库</h2>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">温馨卧室</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🛏️ 卧室母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">[角色名]的卧室，温馨简约风格，米色墙壁配深色木地板，
+左侧大窗午后阳光45度照入，暖黄色调，
+双人床靠右墙，白色床单上有几个彩色靠枕，
+床头柜上放着台灯和相框，地面散落几本书，
+高天花板，左侧大窗，右侧床，对门是衣柜。</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">霸总办公室</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>💼 办公室母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">现代化CEO办公室，冷灰色调，落地窗占满整面背景墙，
+清晨冷白光从窗外照入，低色温(6500K)，
+黑色真皮老板椅，深色实木办公桌，桌上银色MacBook和咖啡杯，
+左侧落地窗俯瞰城市天际线，右侧是书架墙，
+空间感：30平米以上，4米挑高。</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">校园教室</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>📚 教室母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">中国高中教室，阳光明媚的上午，日光灯+自然光混合，
+浅绿色墙壁，米黄色地砖，明亮通透色调，
+40张木质课桌排成四列，黑板上有粉笔字迹，
+讲台上放着教案和粉笔盒，窗台上几盆绿植，
+前门黑板，左侧大窗，后门通走廊，标准3米层高。</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">赛博朋克街道</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🌃 赛博朋克母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">cyberpunk night street, heavy rain,
+neon signs in magenta+cyan+yellow reflecting on wet pavement,
+steam rising from street vents, holographic billboards flickering,
+low angle, dramatic contrast, blue-purple ambient light,
+8K, cinematic lighting, blade runner aesthetic</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">古风仙山</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>⛰️ 古风仙山母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">中国古风仙侠，悬浮在云海之上的仙山群峰，清晨，
+金色晨光从东方穿过云层，云雾缭绕，暖金+白色调，
+山峰上有古老的松树和凉亭，瀑布从悬崖垂落消失在云中，
+远处有仙鹤飞舞，近处岩石上青苔斑驳，
+广角远景，2/3天空+1/3山峰，宏伟庄严。</div>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">💡 光影情绪对照表</h2>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>想传达的情绪</th><th>光源描述</th><th>色调</th></tr></thead>
+<tbody>
+<tr><td>温馨/治愈</td><td><code>warm afternoon sunlight, soft shadows, golden hour</code></td><td>暖琥珀、米黄</td></tr>
+<tr><td>悬疑/紧张</td><td><code>single overhead light, harsh shadows, low-key</code></td><td>暗绿、冷蓝</td></tr>
+<tr><td>浪漫/爱情</td><td><code>golden hour backlight, soft rim light, candlelight</code></td><td>暖橙、粉金</td></tr>
+<tr><td>孤独/悲伤</td><td><code>overcast, diffused light, cool blue hour</code></td><td>低饱和、冷灰</td></tr>
+<tr><td>史诗/霸气</td><td><code>dramatic side light, strong contrast, low angle sun</code></td><td>金橙、深蓝</td></tr>
+<tr><td>科技/未来</td><td><code>neon light, cool white, blue-purple ambient</code></td><td>冷蓝、霓虹紫</td></tr>
+<tr><td>恐怖/惊悚</td><td><code>flashlight beam, pitch black shadows, single source</code></td><td>暗红、墨绿</td></tr>
+<tr><td>日常/生活</td><td><code>natural daylight, even soft shadows</code></td><td>自然色</td></tr>
+</tbody>
+</table>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🔒 场景一致性进阶技巧</h2>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">种子（Seed）控制</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">生成满意的第一张场景图后<strong>记录Seed值</strong>，生成同场景其他镜头时使用相同Seed，<strong>只改角色描述和镜头角度</strong>。如果工具不支持Seed（如即梦免费版），用<strong>复制粘贴相同场景母代码</strong>来替代。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">多视角底图库</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">提前为每个场景生成 全景+中景+细节 三组底图，后续所有同场景镜头都有明确参考。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">🌐 三大光源铁律</h4>
+<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">
+  <li><strong>主光永远有方向</strong> — 禁用平光。写清楚光从哪边来。</li>
+  <li><strong>角色边缘必须有1-2像素轮廓光</strong> — 逆光勾边，把人从背景中"拉"出来。</li>
+  <li><strong>环境光与场景色调一致</strong> — 冷蓝场景补冷蓝光，暖黄场景补暖黄光。</li>
+</ol>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🐛 做坏了怎么办？</h2>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>问题</th><th>症状</th><th>诊断</th><th>解决方案</th></tr></thead>
+<tbody>
+<tr><td><strong>背景穿帮</strong></td><td>床头柜颜色变了</td><td>没用母代码</td><td>写场景母代码→每次复制粘贴，不手打</td></tr>
+<tr><td><strong>窗户位置乱跑</strong></td><td>第1镜左窗第3镜右窗</td><td>空间结构没写死</td><td>母代码明确写"large window on left wall"</td></tr>
+<tr><td><strong>光影不统一</strong></td><td>同一场景忽冷忽暖</td><td>光源描述不一致</td><td>锁定"Afternoon sunlight, 45-degree"不变</td></tr>
+<tr><td><strong>色调跳跃</strong></td><td>一个场景三个颜色</td><td>缺色彩锚定</td><td>末尾固定"warm amber tone"</td></tr>
+<tr><td><strong>角色像P上去的</strong></td><td>光影不合</td><td>角色场景分开生成</td><td>图生图+场景底图做参考，AI自动融合</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card tip" style="margin-top:20px;">
+  <span class="tip-icon">📖</span>
+  <span><strong>延伸资源：</strong>Pinterest 搜 "environment concept art"；film-grab.com 按电影看色调光影；手机相册里真实世界的照片也是最好的场景参考库。</span>
+</div>
+`},
+
+  step4: { number:'04',icon:'🎬',title:'分镜脚本 — 从写手变导演',label:'从写手变导演',
+    content:`
+<div class="step-hero"><div class="step-number">🎬 04</div><div class="step-title">分镜脚本 — 从"写故事的人"变成"导演"</div><div class="step-subtitle">分镜的本质是"引导观众的视线"——用一个一个画面讲出有节奏感的故事。镜头数量计算公式：总字数÷30×0.8。</div></div>
+<div class="explain-block what"><h4>🔍 每个镜头必须包含 8 个要素</h4><p>景别、运镜、主角、动作、台词、音效、光影、场景。缺一个都可能出问题。</p></div>
+<h4 style="margin:20px 0 12px;font-size:0.95rem;">📷 景别——用手机拍照来理解</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>术语</th><th>大白话</th><th>范围</th><th>用在哪</th></tr></thead><tbody>
+<tr><td><strong>大远景</strong></td><td>站超远眺望</td><td>人像蚂蚁</td><td>开头/结尾</td></tr>
+<tr><td><strong>全景</strong></td><td>站得远</td><td>全身</td><td>角色登场</td></tr>
+<tr><td><strong>中景</strong></td><td>正常交谈</td><td>膝盖以上</td><td>最常用，占一半以上</td></tr>
+<tr><td><strong>近景</strong></td><td>面对面</td><td>胸部以上</td><td>情绪表达</td></tr>
+<tr><td><strong>特写</strong></td><td>怼脸拍</td><td>脸/某件东西</td><td>哭/笑/关键道具</td></tr>
+</tbody></table></div>
+<div class="golden-box"><strong>黄金配比</strong><br><span style="color:var(--text-secondary);">全景 30% + 中景 50% + 特写 20% = 最有呼吸感</span></div>
+<h4 style="margin:20px 0 12px;font-size:0.95rem;">🎥 运镜</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>术语</th><th>大白话</th><th>AI提示词</th></tr></thead><tbody>
+<tr><td><strong>推镜头</strong></td><td>从远走近</td><td><code>camera slowly push in</code></td></tr>
+<tr><td><strong>拉镜头</strong></td><td>从近退远</td><td><code>camera slowly pull out</code></td></tr>
+<tr><td><strong>摇镜头</strong></td><td>头左右转</td><td><code>pan left/right</code></td></tr>
+<tr><td><strong>跟镜头</strong></td><td>跟着走</td><td><code>tracking shot, follow</code></td></tr>
+<tr><td><strong>固定镜头</strong></td><td>完全不动</td><td><code>static shot</code></td></tr>
+</tbody></table></div>
+<h4 style="margin:20px 0 12px;font-size:0.95rem;">🔥 一句话拆成8个镜头</h4>
+<p style="font-size:0.88rem;color:var(--text-secondary);">「男主向女主表白」→ 大远景(夜景)→全景(路灯下)→中景(递花)→特写(紧张的脸)→细节特写(发抖手指)→过肩(看女主)→主观视角(女主接花)→近景(嘴角微扬)。<strong>一个动作=一个镜头</strong></p>
+<div class="tip-card warning"><span class="tip-icon">⚠️</span><span>新手最常犯的错：一个镜头塞两个动作。比如一个人又走路又挥手又说话又说旁白——拆开！每个镜头只讲一件事。</span></div>
+`},
+
+  step5: { number:'05',icon:'🖼️',title:'批量生图 — 把分镜变成画面',label:'文字变成画面',
+    content:`
+<div class="step-hero"><div class="step-number">🖼️ 05</div><div class="step-title">批量生图 — 把分镜变成静态画面</div><div class="step-subtitle">先生成静态图（可以反复修改到满意），再把静态图"激活"成视频。这叫「图生视频」，是目前效果最好的方式。</div></div>
+<div class="explain-block why"><h4>💡 为什么先出图再生视频？</h4><p>直接文生视频虽然省事，但角色一致性极差。正确路径是先出图再让图动起来。</p></div>
+<h4 style="margin:20px 0 12px;font-size:0.95rem;">🎨 生图提示词万能公式</h4>
+<div class="prompt-block"><div class="prompt-header"><span>🎨 万能公式</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div><div class="prompt-content">[画风] + [景别] + [角色名(参考上传的图)] + [动作描述] + [场景母代码] + [光影] + [9:16竖屏]
+
+示例：二次元赛璐璐风格，中景，女孩陈闲（参考图1）蹲下查看地面，雨夜小巷场景，霓虹灯倒映在湿石板路面，蓝色冷调氛围光，9:16竖屏</div></div>
+<h4 style="margin:20px 0 12px;font-size:0.95rem;">🖌️ 画风关键词</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>风格</th><th>关键词</th></tr></thead><tbody>
+<tr><td>日式二次元</td><td><code>manga style, cel shading, line art, japanese anime</code></td></tr>
+<tr><td>韩式条漫</td><td><code>manhwa style, webtoon, detailed line art, soft shading</code></td></tr>
+<tr><td>3D动画</td><td><code>3d animation, pixar-inspired, smooth rendering</code></td></tr>
+<tr><td>中国古风</td><td><code>chinese ink painting, gufeng, traditional art</code></td></tr>
+<tr><td>写实电影感</td><td><code>cinematic, photorealistic, film grain, shallow depth of field</code></td></tr>
+</tbody></table></div>
+<h4 style="margin:20px 0 12px;font-size:0.95rem;">🚫 必加负面提示词</h4>
+<div class="prompt-block"><div class="prompt-header"><span>🚫 负面词</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div><div class="prompt-content">lowres, bad anatomy, bad hands, text, error, missing fingers, extra digits, blurry, watermark, username, 模糊, 低分辨率, 透视错误, 扭曲, 多余人物, 光影混乱, 水印, 文字乱码</div></div>
+<div class="tip-card danger"><span class="tip-icon">🐛</span><span><strong>手指扭曲？</strong>AI画手的天生缺陷。① 尽量让人物手背在身后/插兜/握拳 ② 负面词加 <code>bad hands, extra fingers</code></span></div>
+`},
+
+  step6: { number:'06',icon:'🎥',title:'图生视频 — 让静止画面动起来',label:'画面动起来',
+    content:`
+<div class="step-hero"><div class="step-number">🎥 06</div><div class="step-title">图生视频 — 让静止画面动起来</div><div class="step-subtitle">把上一步的静态分镜图上传到 AI 视频工具——这是 AI 漫剧的核心魔法。</div></div>
+<h4 style="margin:16px 0 10px;font-size:0.95rem;">主流工具对比</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>工具</th><th>费用</th><th>最适合</th><th>短板</th></tr></thead><tbody>
+<tr><td><strong>即梦 Seedance 2.0</strong></td><td>免费5-10条/月68元</td><td>人物对话、日常、治愈</td><td>大幅度动作不稳</td></tr>
+<tr><td><strong>可灵 Kling 3.0</strong></td><td>每日免费积分/月99元</td><td>武打、舞蹈、大动态</td><td>人物一致性弱于即梦</td></tr>
+<tr><td><strong>Runway Gen-4</strong></td><td>$15/月起</td><td>专业运镜</td><td>贵+需翻墙</td></tr>
+</tbody></table></div>
+<div class="tip-card success"><span class="tip-icon">💰</span><span><strong>预算0元：</strong>即梦免费额度+可灵免费积分轮着用。<strong>预算68元/月：</strong>即梦会员一站式。</span></div>
+<h4 style="margin:20px 0 10px;font-size:0.95rem;">🎬 操作步骤</h4>
+<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;"><li>即梦→视频生成→上传分镜图</li><li>模型：新手选3.0（最稳），进阶选Seedance 2.0</li><li>动作描述：如「镜头缓缓推进，女孩慢慢站起来，头发被风吹起」</li><li>时长选5秒（最稳定）</li><li>运动幅度：对白选小幅，走路选中幅，打斗才选大幅</li><li>生成→保存为<code>镜号_最终版.mp4</code></li></ol>
+<h4 style="margin:20px 0 10px;font-size:0.95rem;">✅推荐 vs ❌避免</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>✅ 稳定不翻车</th><th>❌ 容易变形</th></tr></thead><tbody>
+<tr><td>缓慢推拉</td><td>快速大范围转圈</td></tr><tr><td>眨眼/微笑等微表情</td><td>全身翻转跳跃</td></tr><tr><td>头发/衣角飘动</td><td>大转头/大变脸</td></tr><tr><td>固定镜头+小幅动作</td><td>手持晃动模拟</td></tr></tbody></table></div>
+<div class="golden-box"><strong>慢就是稳，稳就是好</strong></div>
+<div class="tip-card danger"><span class="tip-icon">🐛</span><span><strong>画面闪烁？（最常见）</strong>① 缩短到3-5秒 ② 降运动幅度 ③ 换Seedance 2.0 ④ 剪掉开头结尾0.5秒（AI抽搐帧）</span></div>
+`},
+
+  step7: { number:'07',icon:'🎙️',title:'配音 & 音效 — 让剧"有声音"',label:'让剧有声音',
+    content:`
+<div class="step-hero"><div class="step-number">🎙️ 07</div><div class="step-title">配音 & 音效 — 让剧"有声音"</div><div class="step-subtitle">没有声音的视频只能叫"动态PPT"。声音占了一部好剧至少 40% 的观感。</div></div>
+<h4 style="margin:16px 0 10px;font-size:0.95rem;">🎙️ 配音工具</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>工具</th><th>费用</th><th>最适合</th></tr></thead><tbody>
+<tr><td><strong>剪映内置</strong></td><td>免费</td><td>新手、短视频</td></tr>
+<tr><td><strong>MiniMax TTS</strong></td><td>免费额度</td><td>精品情感短剧</td></tr>
+<tr><td><strong>ElevenLabs</strong></td><td>免费额度</td><td>海外高端</td></tr>
+</tbody></table></div>
+<div class="tip-card tip"><span class="tip-icon">🎯</span><span>① 不同角色用不同音色，建对照表 ② 语速调到<strong>85-90%</strong>（全速像机器人）③ 情绪词前加0.3秒停顿</span></div>
+<h4 style="margin:20px 0 10px;font-size:0.95rem;">🔊 混音公式</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>音轨</th><th>音量</th><th>通俗理解</th></tr></thead><tbody>
+<tr><td>人声/对白</td><td>0dB 基准</td><td>最响，必须听得清</td></tr>
+<tr><td>动作音效</td><td>-6dB</td><td>人声的一半</td></tr>
+<tr><td>BGM</td><td>-12~-18dB</td><td>人声的1/4到1/8</td></tr>
+<tr><td>环境音</td><td>-12dB</td><td>隐约能听到</td></tr>
+</tbody></table></div>
+<div class="golden-box"><strong>人声必须听得清，音乐不能盖过对白。</strong></div>
+<h4 style="margin:20px 0 10px;font-size:0.95rem;">🎵 免费BGM来源</h4>
+<ul style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;"><li>剪映内置音乐库</li><li>uppbeat.io — 免费商用</li><li>pixabay.com/music — 全免费</li></ul>
+`},
+
+  step8: { number:'08',icon:'✂️',title:'剪辑合成 — 把所有东西拼在一起',label:'拼成一部剧',
+    content:`
+<div class="step-hero"><div class="step-number">✂️ 08</div><div class="step-title">剪辑合成 — 把所有东西拼在一起</div><div class="step-subtitle">排列→删抽搐帧→调节奏→加转场→导入配音→音量分层→字幕→调色→导出</div></div>
+<h4 style="margin:20px 0 10px;font-size:0.95rem;">✂️ 剪映9步流程</h4>
+<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">
+<li><strong>排列素材</strong> — 按分镜顺序拖到时间轴</li>
+<li><strong>删AI抽搐帧</strong> — 每个片段删开头0.5s和结尾0.5s</li>
+<li><strong>调整节奏</strong> — 紧张1.5-2s/镜，对话2-3s，抒情4-6s</li>
+<li><strong>加转场</strong> — 90%硬切，少数淡入淡出(0.5s)，<strong>不要花哨！</strong></li>
+<li><strong>导入配音</strong> — 对口型，偏差不超过0.2s</li>
+<li><strong>音量分层</strong> — 按上一步的混音公式</li>
+<li><strong>加字幕</strong> — 剪映智能字幕，思源黑体，字号18-22</li>
+<li><strong>统一调色</strong> — 色温/饱和度/对比度/锐化，同场景复制粘贴</li>
+<li><strong>导出</strong> — 1080P,30fps,MP4(H.264),码率8-10Mbps</li></ol>
+<h4 style="margin:20px 0 10px;font-size:0.95rem;">🎨 调色参数建议</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>参数</th><th>建议</th><th>作用</th></tr></thead><tbody>
+<tr><td>色温</td><td>暖色+5~+10, 冷色-5~-10</td><td>统一冷暖</td></tr>
+<tr><td>饱和度</td><td>-5~-10</td><td>AI图通常太鲜艳</td></tr>
+<tr><td>对比度</td><td>+5~+10</td><td>增加立体感</td></tr>
+<tr><td>锐化</td><td>+10~+20</td><td>弥补AI柔感</td></tr>
+</tbody></table></div>
+<div class="tip-card warning"><span class="tip-icon">⚠️</span><span><strong>新手最常犯的错：加太多花哨转场。</strong>好的剪辑让人注意不到转场的存在。90%硬切。不要用翻页、旋转等炫技转场。</span></div>
+`},
+
+  step9: { number:'09',icon:'🚀',title:'发布 & 运营 — 让作品被看到',label:'让作品被看到',
+    content:`
+<div class="step-hero"><div class="step-number">🚀 09</div><div class="step-title">发布 & 运营 — 让作品被看到</div><div class="step-subtitle">做出来只是第一步，让人看到才是目的。</div></div>
+<h4 style="margin:16px 0 10px;">📱 多平台分发</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>平台</th><th>格式</th><th>关键点</th></tr></thead><tbody>
+<tr><td><strong>抖音</strong></td><td>竖屏9:16,60秒以内</td><td>#AI漫剧 #AI视频 #AIGC，声明"内容由AI生成"</td></tr>
+<tr><td><strong>B站</strong></td><td>横屏16:9,时长不限</td><td>评论区互动率高，适合引流</td></tr>
+<tr><td><strong>小红书</strong></td><td>竖屏</td><td>封面图特别重要</td></tr>
+<tr><td><strong>快手</strong></td><td>竖屏</td><td>节奏要比抖音更快</td></tr>
+</tbody></table></div>
+<div class="golden-box"><strong>好封面公式</strong><br><span style="color:var(--text-secondary);">高清主角脸 + 冲突暗示 + 大字标题（≤8字）</span></div>
+<div class="tip-card success"><span class="tip-icon">✅</span><span><strong>好标题 vs 坏标题：</strong>❌"AI漫剧第1集" → ✅"推开这扇门后，我再也不是我了"</span></div>
+`},
+
+  tools: { number:'🧰',icon:'',title:'完整工具清单',label:'完整工具清单',
+    content:`
+<div class="step-hero"><div class="step-number">🧰</div><div class="step-title">完整工具清单</div><div class="step-subtitle">从免费到付费，每一环的推荐工具和获取方式。</div></div>
+<div class="data-table-wrapper"><table><thead><tr><th>环节</th><th>工具</th><th>费用</th><th>获取</th></tr></thead><tbody>
+<tr><td>剧本</td><td>DeepSeek</td><td>免费</td><td>chat.deepseek.com</td></tr>
+<tr><td>剧本</td><td>Kimi</td><td>免费</td><td>kimi.moonshot.cn</td></tr>
+<tr><td>剧本</td><td>ChatGPT</td><td>免费版</td><td>chatgpt.com</td></tr>
+<tr><td>角色/场景</td><td>即梦AI</td><td>免费额度</td><td>jimeng.jianying.com</td></tr>
+<tr><td>角色/场景</td><td>Midjourney</td><td>$10/月起</td><td>midjourney.com</td></tr>
+<tr><td>专业绘画</td><td>ComfyUI</td><td>免费(需显卡)</td><td>github.com/comfyanonymous/ComfyUI</td></tr>
+<tr><td>图生视频</td><td>即梦Seedance 2.0</td><td>月68元</td><td>jimeng.jianying.com</td></tr>
+<tr><td>图生视频</td><td>可灵Kling 3.0</td><td>月99元</td><td>klingai.com</td></tr>
+<tr><td>图生视频</td><td>Runway Gen-4</td><td>$15/月起</td><td>runwayml.com</td></tr>
+<tr><td>配音</td><td>剪映内置</td><td>免费</td><td>jianying.com</td></tr>
+<tr><td>配音</td><td>MiniMax/海螺</td><td>免费额度</td><td>hailuoai.com</td></tr>
+<tr><td>配音</td><td>ElevenLabs</td><td>免费额度</td><td>elevenlabs.io</td></tr>
+<tr><td>剪辑</td><td>剪映专业版</td><td>免费</td><td>jianying.com</td></tr>
+<tr><td>增强</td><td>Topaz Video AI</td><td>付费</td><td>topazlabs.com</td></tr>
+</tbody></table></div>
+`},
+
+  bugs: { number:'🐛',icon:'',title:'终极避坑清单',label:'终极避坑大全',
+    content:`
+<div class="step-hero"><div class="step-number">🐛</div><div class="step-title">终极避坑清单</div><div class="step-subtitle">对着这张表检查，能避免80%的返工。</div></div>
+<div class="data-table-wrapper"><table><thead><tr><th>步骤</th><th>最常见的问题</th><th>怎么避开</th></tr></thead><tbody>
+<tr><td>剧本</td><td>大段内心戏</td><td>全部改成「他皱眉+握拳」「她眼眶红了」</td></tr>
+<tr><td>角色</td><td>只靠prompt就想保持一致性</td><td>必须生成三视图+参考图，每次都上传</td></tr>
+<tr><td>场景</td><td>同一场景不同镜头颜色不同</td><td>写场景母代码，每个镜头严格复制</td></tr>
+<tr><td>分镜</td><td>全是中景，节奏单调</td><td>记牢30/50/20比例，每3-5镜插一个特写</td></tr>
+<tr><td>生图</td><td>手指畸形、画面乱加东西</td><td>负面词拉满，手不出镜或换姿势</td></tr>
+<tr><td>生视频</td><td>闪烁、抖动、色彩突变</td><td>缩到3-5秒，删开头结尾0.5s，降运动幅度</td></tr>
+<tr><td>配音</td><td>机器人感、各角色声音一样</td><td>语速85-90%，不同角色用不同音色</td></tr>
+<tr><td>剪辑</td><td>转场太花、BGM盖过对白</td><td>90%硬切，BGM压到-12dB以下</td></tr>
+</tbody></table></div>
+`},
+
+  resources: { number:'📖',icon:'',title:'推荐学习资源',label:'推荐学习资源',
+    content:`
+<div class="step-hero"><div class="step-number">📖</div><div class="step-title">推荐学习资源</div><div class="step-subtitle">持续学习和提升的渠道。</div></div>
+<ul style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.5;">
+<li><strong>B站</strong> 搜「AI漫剧教程」→ 按播放量排序</li>
+<li><strong>即梦社区</strong>→ jimeng.jianying.com → 社区 → 大量可复制的提示词</li>
+<li><strong>小红书</strong> 搜「AI漫剧」→ 模仿是学习的第一步</li>
+<li><strong>Runway官方教程</strong> → runwayml.com/resources</li>
+<li><strong>film-grab.com</strong> → 专业电影的分镜/光影参考</li>
+<li>《AI短视频制作：可灵AI＋剪映AI＋即梦AI一本通》— 化学工业出版社2025</li>
+<li>《爆款短剧与微电影创作：118个编剧构思与剧本创意技巧(AI赋能版)》— 2025年8月出版</li>
+</ul>
+`}
+};
+
+// Fill STEPS from templates
+for(const [k,v] of Object.entries(STEP_TEMPLATES)){
+  STEPS[k] = { number:v.number, icon:v.icon, title:v.title, label:v.label, html:v.content };
+}
+
+/* ============================================
+   MARKDOWN LOADER — Dynamic content from Obsidian Vault
+   ============================================ */
+
+// Configuration: path to Obsidian vault (relative or absolute)
+const VAULT_BASE = '../../Obsidian下载/AI manju';  // relative path from ai-manhua-guide to vault
+const USE_DYNAMIC_MD = false;        // SET TO TRUE when serving via HTTP server with vault accessible
+
+// Map step IDs to vault markdown files
+const MD_MAP = {
+  step1: '01_剧本创作/README.md',
+  step2: '02_角色设计/README.md',
+  step3: '03_场景设计/README.md',
+  step4: '04_分镜脚本/README.md',
+  step5: '05_批量生图/README.md',
+  step6: '06_图生视频/README.md',
+  step7: '07_配音音效/README.md',
+  step8: '08_剪辑合成/README.md',
+  step9: '09_发布运营/README.md',
+  tools: '10_参考资料/README.md',
+  bugs: '10_参考资料/README.md',
+  resources: '10_参考资料/README.md',
+};
+
+/**
+ * Simple Markdown-to-HTML converter.
+ * Converts Obsidian-flavored markdown to styled HTML.
+ */
+function mdToHtml(md) {
+  if (!md) return '<p>内容加载失败，请检查文件路径。</p>';
+
+  // Remove YAML frontmatter
+  md = md.replace(/^---[\s\S]*?---\n*/, '');
+
+  let html = md;
+
+  // Wiki links [[path|label]] or [[path]]
+  html = html.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '<a href="#$1" class="wiki-link">$2</a>');
+  html = html.replace(/\[\[([^\]]+)\]\]/g, '<a href="#$1" class="wiki-link">$1</a>');
+
+  // Code blocks ```
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_,lang,code) => {
+    return '<div class="prompt-block"><div class="prompt-header"><span>'+(lang||'code')+'</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div><div class="prompt-content">'+escapeHtml(code.trim())+'</div></div>';
+  });
+
+  // Inline code
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+  // Headers
+  html = html.replace(/^#### (.+)$/gm, '<h4 style="font-size:0.95rem;margin:16px 0 8px;">$1</h4>');
+  html = html.replace(/^### (.+)$/gm, '<h3 style="font-size:1.05rem;margin:20px 0 10px;color:var(--accent-glow);">$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2 style="font-size:1.15rem;margin:24px 0 12px;border-bottom:1px solid var(--border);padding-bottom:8px;">$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1 style="font-size:1.3rem;margin:24px 0 12px;">$1</h1>');
+
+  // Blockquotes
+  html = html.replace(/^> (.+)$/gm, '<div class="tip-card tip"><span class="tip-icon">💡</span><span>$1</span></div>');
+  html = html.replace(/^> ⚠️ (.+)$/gm, '<div class="tip-card warning"><span class="tip-icon">⚠️</span><span>$1</span></div>');
+  html = html.replace(/^> ✅ (.+)$/gm, '<div class="tip-card success"><span class="tip-icon">✅</span><span>$1</span></div>');
+
+  // Bold and italic
+  html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  // Horizontal rules
+  html = html.replace(/^---$/gm, '<hr style="border:none;border-top:1px solid var(--border);margin:24px 0;">');
+
+  // Tables: detect |---| pattern and wrap
+  let lines = html.split('\n');
+  let result = [];
+  let inTable = false;
+  let tableRows = [];
+  let isHeader = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (line.startsWith('|') && line.endsWith('|')) {
+      if (!inTable) { inTable = true; tableRows = []; isHeader = true; }
+      if (line.match(/^\|[\s\-:|]+\|$/)) { isHeader = false; continue; } // separator row
+      const cells = line.split('|').filter(c => c.trim()).map(c => c.trim());
+      tableRows.push({ cells, isHeader });
+      isHeader = false;
+    } else {
+      if (inTable) {
+        // Flush table
+        let tbl = '<div class="data-table-wrapper"><table>';
+        tableRows.forEach((row, ri) => {
+          const tag = row.isHeader ? 'th' : 'td';
+          tbl += '<tr>';
+          row.cells.forEach(c => {
+            tbl += '<'+tag+'>'+c+'</'+tag+'>';
+          });
+          tbl += '</tr>';
+        });
+        tbl += '</table></div>';
+        result.push(tbl);
+        inTable = false; tableRows = [];
+      }
+      result.push(line);
+    }
+  }
+  // Flush remaining table
+  if (inTable && tableRows.length > 0) {
+    let tbl = '<div class="data-table-wrapper"><table>';
+    tableRows.forEach(row => {
+      const tag = row.isHeader ? 'th' : 'td';
+      tbl += '<tr>';
+      row.cells.forEach(c => { tbl += '<'+tag+'>'+c+'</'+tag+'>'; });
+      tbl += '</tr>';
+    });
+    tbl += '</table></div>';
+    result.push(tbl);
+  }
+
+  html = result.join('\n');
+
+  // Ordered lists
+  html = html.replace(/^(\d+)\. (.+)$/gm, '<li value="$1">$2</li>');
+  // Wrap consecutive <li> in <ol>
+  html = html.replace(/(<li[\s\S]*?<\/li>)\n(?!<li)/g, '$1</ol>\n');
+  html = html.replace(/(?<!<\/ol>\n)(<li)/g, '<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">\n$1');
+
+  // Unordered lists
+  html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li[\s\S]*?<\/li>)\n(?!<li)/g, '$1</ul>\n');
+  html = html.replace(/(?<!<\/ul>\n)(<li)/g, '<ul style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">\n$1');
+
+  // Paragraphs: wrap non-tag lines
+  html = html.replace(/^(?!<[a-z/!]|$)(.+)$/gm, '<p style="font-size:0.9rem;color:var(--text-secondary);margin:8px 0;">$1</p>');
+
+  return html;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/**
+ * Load markdown content from Obsidian vault file.
+ * Falls back to inline STEP content if dynamic loading fails or is disabled.
+ */
+async function loadMdContent(stepId) {
+  if (!USE_DYNAMIC_MD || !MD_MAP[stepId]) return null;
+
+  const mdPath = VAULT_BASE + '/' + MD_MAP[stepId];
+  try {
+    const resp = await fetch(mdPath);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const md = await resp.text();
+    const html = mdToHtml(md);
+    if (html && html.trim().length > 0) return html;
+    throw new Error('MD converted to empty HTML');
+  } catch(e) {
+    console.warn('⚠️ MD fetch failed for ' + stepId + ', using inline fallback. Error: ' + e.message);
+    return null;
+  }
+}
+
+/* ============================================
+   ROUTING (with dynamic MD support)
+   ============================================ */
+let currentStepId = 'step1';
+
+async function renderPage(stepId){
+  const step = STEPS[stepId];
+  if(!step){ navigateTo('step1'); return; }
+  currentStepId = stepId;
+
+  // Try dynamic MD loading first, fall back to inline HTML
+  const mdHtml = await loadMdContent(stepId);
+  const contentHtml = mdHtml || step.html;
+
+  // Update main content
+  document.getElementById('mainContent').innerHTML = contentHtml;
+  document.getElementById('mainContent').classList.remove('page-content');
+  void document.getElementById('mainContent').offsetWidth;
+  document.getElementById('mainContent').classList.add('page-content');
+
+  // Update labels
+  document.getElementById('currentStepLabel').textContent = `第${step.number}步`;
+  document.getElementById('currentStepTitle').textContent = '— ' + step.title.split(' — ')[0];
+
+  // Update sidebar active
+  document.querySelectorAll('.sidebar a').forEach(a=>{
+    a.classList.toggle('active', a.dataset.id === stepId);
+  });
+
+  // Update dots
+  document.querySelectorAll('.step-dots .dot').forEach(d=>{
+    d.classList.toggle('active', d.dataset.index === String(SIDEBAR_ITEMS.findIndex(s=>s.id===stepId)));
+  });
+
+  // Update nav buttons
+  const idx = SIDEBAR_ITEMS.findIndex(s=>s.id===stepId);
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const bottomPrev = document.getElementById('bottomPrev');
+  const bottomNext = document.getElementById('bottomNext');
+  prevBtn.disabled = idx === 0;
+  nextBtn.disabled = idx === SIDEBAR_ITEMS.length - 1;
+  bottomPrev.disabled = idx === 0;
+  bottomNext.disabled = idx === SIDEBAR_ITEMS.length - 1;
+
+  // Scroll to top of content
+  document.querySelector('.main-wrap').scrollIntoView({behavior:'smooth'});
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  // Re-bind copy buttons in new content
+  bindCopyButtons();
+
+  // Update URL hash
+  if(location.hash !== '#'+stepId){
+    history.replaceState(null,null,'#'+stepId);
+  }
+}
+
+function navigateTo(stepId){
+  renderPage(stepId);
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+function navigatePrev(){
+  const idx = SIDEBAR_ITEMS.findIndex(s=>s.id===currentStepId);
+  if(idx>0) navigateTo(SIDEBAR_ITEMS[idx-1].id);
+}
+function navigateNext(){
+  const idx = SIDEBAR_ITEMS.findIndex(s=>s.id===currentStepId);
+  if(idx<SIDEBAR_ITEMS.length-1) navigateTo(SIDEBAR_ITEMS[idx+1].id);
+}
+
+/* ============================================
+   COPY BUTTONS
+   ============================================ */
+function bindCopyButtons(){
+  document.querySelectorAll('.copy-btn').forEach(btn=>{
+    btn.addEventListener('click', function(){
+      const block = this.closest('.prompt-block');
+      const content = block.querySelector('.prompt-content').textContent;
+      navigator.clipboard.writeText(content).then(()=>{
+        this.textContent='✅ 已复制';this.classList.add('copied');
+        setTimeout(()=>{this.textContent='📋 复制';this.classList.remove('copied');},2000);
+      }).catch(()=>{
+        this.textContent='❌ 失败';
+        setTimeout(()=>{this.textContent='📋 复制';},2000);
+      });
+    });
+  });
+}
+
+/* ============================================
+   EVENT LISTENERS
+   ============================================ */
+// Sidebar clicks
+document.getElementById('sidebar').addEventListener('click',e=>{
+  const a = e.target.closest('a');
+  if(a){ e.preventDefault(); navigateTo(a.dataset.id); }
+});
+
+// Prev/Next buttons
+document.getElementById('prevBtn').addEventListener('click',navigatePrev);
+document.getElementById('nextBtn').addEventListener('click',navigateNext);
+document.getElementById('bottomPrev').addEventListener('click',navigatePrev);
+document.getElementById('bottomNext').addEventListener('click',navigateNext);
+
+// Keyboard nav
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+  if(e.key==='ArrowLeft') navigatePrev();
+  if(e.key==='ArrowRight') navigateNext();
+});
+
+// Mobile menu
+document.getElementById('menuBtn').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+});
+document.getElementById('sidebarOverlay').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+});
+
+// Theme toggle
+const themeBtn = document.getElementById('themeBtn');
+const html = document.documentElement;
+themeBtn.addEventListener('click',()=>{
+  const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+  html.setAttribute('data-theme',next);
+  themeBtn.textContent = next==='dark'?'🌙':'☀️';
+  localStorage.setItem('ai-manhua-theme',next);
+});
+const saved = localStorage.getItem('ai-manhua-theme');
+if(saved){ html.setAttribute('data-theme',saved); themeBtn.textContent = saved==='dark'?'🌙':'☀️'; }
+
+// Back to top
+const btt = document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{
+  btt.classList.toggle('visible', window.scrollY>400);
+});
+btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+// Copy button delegation
+bindCopyButtons();
+
+/* ============================================
+   INIT
+   ============================================ */
+const hash = location.hash.replace('#','');
+const validHash = hash && STEPS[hash];
+renderPage(validHash ? hash : 'step1');
+
+// Handle hash changes
+window.addEventListener('hashchange',()=>{
+  const h = location.hash.replace('#','');
+  if(h && STEPS[h]) renderPage(h);
+});
+</script>
+</body>
+</html>
