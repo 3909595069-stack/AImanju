@@ -705,47 +705,243 @@ STEPS['step1'] = {
 
 // -- Step 2: 角色设计 --
 STEPS['step2'] = {
-  number:'02', icon:'👤', title:'角色设计 — 让人物"有身份证"', label:'角色"身份证"',
+  number:'02', icon:'👤', title:'角色设计 — 给 AI 一份不会弄丢的"视觉身份证"', label:'角色"身份证"',
   html: `
 <div class="step-hero">
   <div class="step-number">👤 02</div>
-  <div class="step-title">角色设计 — 让人物"有身份证"</div>
-  <div class="step-subtitle">这是 AI 漫剧最大的技术难点——让同一个角色在所有镜头里长得一模一样。</div>
+  <div class="step-title">角色设计 — 给 AI 一份不会弄丢的"视觉身份证"</div>
+  <div class="step-subtitle">你说"保持一致"，AI 说"你说的是谁？"——这是 AI 漫剧最大的技术难点。</div>
 </div>
 
 <div class="explain-block what">
-  <h4>🔍 这是啥？</h4>
-  <p>给每个角色生成<strong>正面+侧面+背面的"定妆照"</strong>——专业叫法是「角色三视图」或角色设定图（Character Design Sheet）。这些图作为"身份证"，在后续所有画面中约束 AI。AI 天生没有记忆——你每次说「画一个穿白裙子的女孩」，它都给你画不同的人。第 3 秒还是瓜子脸，第 5 秒变成圆脸→观众直接弃剧。</p>
+  <h4>🔍 这是什么？</h4>
+  <p><strong>角色设计</strong>，就是把文字剧本里的角色，转化为一套 <strong>AI 能稳定复现的视觉标准</strong>。这个概念源自动画工业的「角色三视图」（Character Design Sheet）：</p>
 </div>
 
-<div class="explain-block how">
-  <h4>🛠️ 具体操作（以即梦 AI 为例）</h4>
-  <p>打开 <strong>即梦 AI</strong>（jimeng.jianying.com，抖音号登录）→ 「图片生成」→ 模型选「图片 4.0」→ 比例选「9:16」→ 输入提示词：</p>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>视图</th><th>作用</th><th>在 AI 工作流中对应什么</th></tr></thead>
+<tbody>
+<tr><td><strong>正面图</strong></td><td>脸部特征、发型、五官比例</td><td>即梦/ Midjourney 生成的正面定妆照</td></tr>
+<tr><td><strong>侧面/半侧图</strong></td><td>头型、鼻梁、下颌线轮廓</td><td>同一角色的多角度生成图</td></tr>
+<tr><td><strong>背面图 + 全身</strong></td><td>体型、服装、站姿、身高比例</td><td>用于全景镜头的人物参考</td></tr>
+<tr><td><strong>表情集</strong></td><td>喜怒哀乐的不同状态</td><td>用于特写镜头、情感戏的参考</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="golden-box">
+  <strong>角色设计 = 选定外貌 → 固化为 3-5 张参考图 → 在所有分镜中锚定</strong>
+</div>
+
+<div class="explain-block why">
+  <h4>💡 为什么这是最关键的一步？</h4>
+  <p><strong>AI 没有记忆。</strong>你上一张图生成一个黑发红裙的女孩，下一张它完全不记得她长什么样。不做角色设计的后果：第一幕瓜子脸→第二幕圆脸（弹幕"这谁？"）、衣服颜色每镜在变（"换装秀？"）、发型飘忽不定（"发型比剧情变化还快"）→ 观众直接弃剧。</p>
+  <p style="margin-top:8px;">角色设计的目的不是"画出好看的人"，而是<strong>锁死变量</strong>——让 AI 每次画这个角色时，输入条件完全一致。</p>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🛠️ 方法一：即梦参考图法（零门槛，推荐新手）</h2>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">第 1 步：生成角色定妆照</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">打开 <strong>即梦 AI</strong>（jimeng.jianying.com，抖音号登录）→「图片生成」→ 模型选「图片 4.0」→ 比例选「9:16」→ 输入提示词：</p>
+
+<div class="prompt-block">
+  <div class="prompt-header"><span>🎨 角色提示词万能公式</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">[性别][年龄段]，[脸型]，[发型+发色]，[眼睛特征]，[肤色]，
+穿着[服装描述]，[配饰]，[气质/表情倾向]，
+[画风关键词]，[光线]，纯白背景，角色设定图，三视图</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">完整示例（古风女主）：</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🏯 古风仙侠女主</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">年轻女性，22岁左右，鹅蛋脸，黑色长直发及腰，齐刘海，
+紫色杏眼双眼皮，雪白肤色，
+穿着白色古风长裙，红色腰带，袖口金色刺绣，腰间挂白玉佩，
+清冷疏离气质，眉眼间带着淡淡忧愁，
+二次元赛璐璐风格，柔光，纯白背景，角色设定图，三视图，全身站立</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">完整示例（都市男主）：</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🏙️ 都市甜宠男主</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">年轻男性，25岁左右，轮廓分明的方脸，深棕色短发微乱，
+深褐色眼睛眼神锐利，小麦色肤色，
+穿着洗旧的白色T恤、深蓝色牛仔裤、黑色马丁靴，
+右耳戴一颗银色耳钉，下巴有淡淡胡茬，
+痞帅但眼神温柔，有市井烟火气，
+韩式条漫风格，自然光，纯白背景，角色设定图，全身站立</div>
 </div>
 
 <div class="prompt-block">
-  <div class="prompt-header"><span>🎨 角色三视图提示词模板</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
-  <div class="prompt-content">二次元赛璐璐风格，融入中式美学，1个女孩，齐刘海，黑色长发到腰，紫色瞳孔，鹅蛋脸，穿白色古风长裙，红色腰带，袖口有金色刺绣，纯白背景，角色设定图，三视图，正面站立，全身，手臂自然下垂</div>
+  <div class="prompt-header"><span>🌐 英文二次元模板（Midjourney / SD）</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">3D chibi character, silver short hair, sharp blue eyes,
+oversized grey hoodie with cat ear design, black fingerless gloves,
+young male, slim build,
+three views (front, side, back), full body standing pose,
+clean white background, anime style, cel shading, high quality, 8K --ar 16:9</div>
 </div>
 
-<p style="font-size:0.85rem;color:var(--text-muted);margin-top:8px;">💡 多生成几次（每次结果不同），选最满意的一张<strong>右键保存</strong>，命名：<code>角色名_定妆照.png</code></p>
+<p style="font-size:0.85rem;color:var(--text-muted);">💡 多生成几次（每次结果不同），选最满意的一张保存为 <code>角色名_定妆照.png</code></p>
 
-<h4 style="margin:24px 0 12px;font-size:0.95rem;">🔒 三种人物一致性锁定方案</h4>
+<h4 style="font-size:0.95rem;margin:20px 0 8px;">第 2 步：建立多角度参考图库</h4>
+<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">
+  <li>在即梦输入框左侧点击<strong>上传参考图按钮</strong></li>
+  <li>上传刚才的正面定妆照</li>
+  <li>把提示词中「正面站立」改为「侧面站立（身体朝右）」→ 生成侧面图</li>
+  <li>再改为「背对镜头，背面站立」→ 生成背面图</li>
+  <li>生成一张「面部特写，表情自然，从胸口到头顶」→ 近景表情参考</li>
+</ol>
+
+<h4 style="font-size:0.95rem;margin:20px 0 8px;">第 3 步：建立"角色身份证"文档</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">把所有参考图存入同一文件夹，命名规则 <code>[角色名]_定妆</code>，包含：正面/侧面/背面/表情特写/全身各一张。</p>
+
+<h4 style="font-size:0.95rem;margin:20px 0 8px;">第 4 步：在所有分镜中使用</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">后续每个分镜生图时，<strong>都上传这些参考图</strong>，并在提示词中重复角色的核心外貌关键词。</p>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🎯 方法二：Midjourney --cref 方案（画质最好，需付费）</h2>
+
 <div class="data-table-wrapper">
 <table>
-<thead><tr><th>方案</th><th>难度</th><th>费用</th><th>效果</th><th>适合谁</th></tr></thead>
+<thead><tr><th>参数</th><th>作用</th><th>范围</th><th>推荐值</th></tr></thead>
 <tbody>
-<tr><td><strong>即梦参考图法</strong></td><td>⭐</td><td>免费</td><td>⭐⭐⭐</td><td>新手入门</td></tr>
-<tr><td><strong>Midjourney --cref</strong></td><td>⭐⭐</td><td>$10/月起</td><td>⭐⭐⭐⭐</td><td>追求画质</td></tr>
-<tr><td><strong>ComfyUI + IP-Adapter</strong></td><td>⭐⭐⭐</td><td>免费(需显卡)</td><td>⭐⭐⭐⭐⭐</td><td>专业制作</td></tr>
-<tr><td><strong>训练专属 LoRA</strong></td><td>⭐⭐⭐⭐</td><td>显卡成本</td><td>⭐⭐⭐⭐⭐</td><td>大型连载剧</td></tr>
+<tr><td><code>--cref [URL]</code></td><td>Character Reference：锁定人物外观</td><td>1-3 张图片 URL</td><td>2 张（正面 + 侧面）</td></tr>
+<tr><td><code>--cw</code></td><td>Character Weight：参考影响力</td><td>0-100</td><td>日常 50-80，换装 0-30</td></tr>
+<tr><td><code>--sref [URL]</code></td><td>Style Reference：锁定画风和色调</td><td>1 张风格图</td><td>1 张</td></tr>
+<tr><td><code>--seed [数字]</code></td><td>固定随机种子</td><td>任意整数</td><td>记录首张满意图的 seed</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card tip">
+  <span class="tip-icon">💡</span>
+  <span><strong>MJ 小贴士：</strong><code>--cw 0</code> = 只锁脸，可换装；<code>--cw 100</code> = 全套锁定；V7 的 <code>--oref</code> 比 V6 <code>--cref</code> 更好用但消耗 2 倍 GPU 时间。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">⚙️ 方法三：ComfyUI + IP-Adapter（专业级，免费但需显卡）</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);">硬件要求：最低 8GB 显存（RTX 3060+），推荐 12GB+。安装：github.com/comfyanonymous/ComfyUI</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">IP-Adapter 核心参数</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>参数</th><th>推荐值</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>weight</strong></td><td>0.6-0.8</td><td>面部特写 0.8，全身 0.6，动漫 0.4-0.7</td></tr>
+<tr><td><strong>noise</strong></td><td>0.2</td><td>太高变脸，太低表情僵硬</td></tr>
+<tr><td><strong>clip_vision</strong></td><td>ViT-H-14</td><td>兼容性最好</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="golden-box">
+  <strong>工业级三件套叠加方案</strong><br>
+  <span style="font-size:0.9rem;color:var(--text-secondary);">
+  LoRA（锁身份+画风，0.6-0.8）→ IP-Adapter FaceID（锁面部，0.6-0.8）→ ControlNet OpenPose（锁姿势，0.7-0.9）<br>
+  <strong>一致性可达 90-95%，社区公认的工业级标准。</strong>
+  </span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🏗️ 方法四：训练专属 LoRA（终极方案，IP 化运营）</h2>
+<p style="font-size:0.9rem;color:var(--text-secondary);">当角色要在 <strong>50 集以上</strong> 连载中反复出现时，值得训练专属 LoRA。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">数据集要求</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>维度</th><th>标准</th></tr></thead>
+<tbody>
+<tr><td>图片数量</td><td>15-30 张高质量图（质量 > 数量）</td></tr>
+<tr><td>角度覆盖</td><td>正面 ×2-3，3/4 侧 ×4-5，侧面 ×2，仰/俯 ×2-3</td></tr>
+<tr><td>表情多样</td><td>自然 ×3-4，微笑 ×3-4，严肃 ×2-3</td></tr>
+<tr><td>距离变化</td><td>脸部特写 ×5-7，头像 ×5-7，半身 ×3-4，全身 ×2-3</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">关键训练参数</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>参数</th><th>推荐值</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>Network Rank</td><td>32-64</td><td>32 起步，更高易过拟合</td></tr>
+<tr><td>Network Alpha</td><td>16-32</td><td>通常为 rank 的一半</td></tr>
+<tr><td>学习率</td><td>1e-4</td><td>稳定起点</td></tr>
+<tr><td>Epochs</td><td>10-15</td><td>15-30 张图最佳</td></tr>
+<tr><td>基础模型</td><td>Pony Diffusion V6 / Juggernaut XL</td><td>动漫 / 写实</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card warning">
+  <span class="tip-icon">⚠️</span>
+  <span><strong>判断训练是否成功：</strong>✅ 像同一个人但不是同一张照片；✅ 触发词稳定召唤角色；❌ 和训练图一模一样 = 过拟合，降低 rank；❌ 触发词无效 = 欠拟合，增加 epochs。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">📊 四种方案完整对比</h2>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>方案</th><th>原理</th><th>一致性</th><th>门槛</th><th>成本</th><th>适用场景</th></tr></thead>
+<tbody>
+<tr><td><strong>即梦参考图法</strong></td><td>即梦内置参考功能</td><td>~70%</td><td>⭐ 零门槛</td><td>免费</td><td>1-3分钟短剧/个人练习</td></tr>
+<tr><td><strong>Midjourney --cref</strong></td><td>参数锁角色+画风</td><td>~85%</td><td>⭐⭐</td><td>$30/月</td><td>中高质量短剧</td></tr>
+<tr><td><strong>ComfyUI IP-Adapter</strong></td><td>三件套叠加锁脸</td><td>~90%</td><td>⭐⭐⭐</td><td>免费(需显卡)</td><td>高质量系列剧</td></tr>
+<tr><td><strong>训练专属 LoRA</strong></td><td>定制轻量角色模型</td><td>~95%+</td><td>⭐⭐⭐⭐</td><td>5-20元/LoRA</td><td>IP化运营/50集+</td></tr>
 </tbody>
 </table>
 </div>
 
 <div class="tip-card success">
   <span class="tip-icon">✅</span>
-  <span><strong>好角色设计的 3 个标准：</strong>① 有 2-3 个一眼能记住的特征（如"左眼有疤""永远戴红围巾""头发有一撮白毛"）② 服装颜色不超过 3 个主色 ③ 做了正面+侧面+背面的参考图。记住：<strong>你没有让人记住角色，就是浪费了一整集。</strong></span>
+  <span><strong>新手建议：</strong>用即梦参考图法入门，做到第 3-5 个作品时会自然感受到瓶颈，再升级到 Midjourney 或 ComfyUI。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🎯 好角色设计的 3 个标准</h2>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>✅ 好的设计</th><th>❌ 差的设计</th></tr></thead>
+<tbody>
+<tr><td>「红框圆眼镜 + 右眼角泪痣 + 不对称短发」</td><td>「一个好看的女生」</td></tr>
+<tr><td>「左脸有一道从眉毛到下巴的暗红伤疤」</td><td>「忧郁气质的男主角」</td></tr>
+<tr><td>「永远戴一条银色十字架项链」</td><td>「时尚穿搭」</td></tr>
+</tbody>
+</table>
+</div>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin:12px 0;">AI 更容易锚定<strong>具体的、可文本描述的特征</strong>，而非模糊的美感。跨角度辨识的三大要素：<strong>发型轮廓</strong>（背面也能认）、<strong>服装颜色搭配</strong>（远处也能分辨）、<strong>标志性配饰</strong>（任何角度都一样）。</p>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🐛 做坏了怎么办？</h2>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>问题</th><th>症状</th><th>诊断</th><th>解决方案</th></tr></thead>
+<tbody>
+<tr><td><strong>脸盲症</strong></td><td>每张图长得不一样</td><td>参考图未上传/权重不够</td><td>确认参考图已上传；减少发型变化描述；在提示词开头重复角色名</td></tr>
+<tr><td><strong>服装漂移</strong></td><td>衣服颜色/款式变了</td><td>服装关键词不够强</td><td>三次重复关键服装要素（"红色腰带，红色腰带，红色腰带"）</td></tr>
+<tr><td><strong>画风不统一</strong></td><td>一张写实一张二次元</td><td>未锁定画风关键词</td><td>画风关键词放在提示词最前面，所有参考图风格一致</td></tr>
+<tr><td><strong>表情僵硬</strong></td><td>所有图同一表情</td><td>定妆照中性脸，没加表情词</td><td>加入「嘴角微扬，眼神柔和」「眉头紧锁，嘴唇紧抿」</td></tr>
+<tr><td><strong>侧脸崩</strong></td><td>正面像侧面不像</td><td>参考图只有正面</td><td>补充侧面参考图，正面+侧面同时上传</td></tr>
+<tr><td><strong>多角色混淆</strong></td><td>A的脸出现在B身上</td><td>AI混淆了两个角色</td><td>各自分开发送参考图，提示词标「图左：A；图右：B」</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card tip" style="margin-top:20px;">
+  <span class="tip-icon">📖</span>
+  <span><strong>延伸资源：</strong>B 站搜「即梦角色设计」；<a href="https://apatero.com/zh/blog/anime-character-consistency-complete-guide-2025" target="_blank">Apatero 动漫角色一致性指南</a>；<a href="https://www.imaginepro.ai/blog/2025/7/midjourney-character-reference-guide" target="_blank">Midjourney --cref 完整指南</a></span>
 </div>
 `
 };
