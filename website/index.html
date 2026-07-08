@@ -1074,25 +1074,182 @@ natural daylight, soft shadows</div>
 const STEP_TEMPLATES = {
   step3: { number:'03',icon:'🏠',title:'场景设计 — 让环境"不乱变"',label:'环境不乱变',
     content:`
-<div class="step-hero"><div class="step-number">🏠 03</div><div class="step-title">场景设计 — 让环境"不乱变"</div><div class="step-subtitle">第3镜的窗户在左边，第5镜跑到了右边——这就是穿帮。</div></div>
-<div class="explain-block what"><h4>🔍 场景母代码——场景的"身份证"</h4><p>为每个场景准备一段<strong>永远不修改</strong>的固定描述。之后生成这个场景的任何镜头时，都把这段原封不动加进去。</p></div>
-<div class="prompt-block"><div class="prompt-header"><span>🏠 场景母代码示例</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div><div class="prompt-content">[场景：温馨咖啡馆] 复古工业风，裸露红砖墙面，暖黄色吊灯，左侧大落地窗能看到外面的街道，深棕色木地板，吧台在画面右侧。午后阳光从左侧大窗照入，形成柔和的丁达尔光束。</div></div>
-<h4 style="margin:20px 0 12px;font-size:0.95rem;">📐 场景设计四要素</h4>
-<div class="data-table-wrapper"><table><thead><tr><th>要素</th><th>通俗理解</th><th>怎么写</th></tr></thead><tbody>
-<tr><td><strong>标志性物体</strong></td><td>场景里最显眼的东西</td><td>"红色真皮沙发""落地钟""樱花树"</td></tr>
-<tr><td><strong>光源和时间</strong></td><td>什么时候、什么光</td><td>"午后阳光""深夜月光""黄昏金辉"</td></tr>
-<tr><td><strong>色调</strong></td><td>整体配色方案</td><td>"暖黄色调""冷蓝色调""墨绿色调"</td></tr>
-<tr><td><strong>空间结构</strong></td><td>窗户在哪、门在哪</td><td>"左侧大落地窗""右手边是楼梯"</td></tr>
-</tbody></table></div>
-<h4 style="margin:20px 0 12px;font-size:0.95rem;">💡 光影情绪对照表</h4>
-<div class="data-table-wrapper"><table><thead><tr><th>情绪</th><th>用什么光</th><th>含义</th></tr></thead><tbody>
-<tr><td>温馨/治愈/爱情</td><td><code>warm yellow light, soft lighting, golden hour</code></td><td>画面偏黄偏暖</td></tr>
-<tr><td>悬疑/紧张/恐怖</td><td><code>backlight silhouette, low-key lighting, cool blue</code></td><td>大片阴影</td></tr>
-<tr><td>科技/未来/赛博</td><td><code>neon light, cool white, purple & blue</code></td><td>科幻夜景</td></tr>
-<tr><td>霸气/权力/史诗</td><td><code>Rembrandt lighting, low angle, dramatic</code></td><td>脸半明半暗</td></tr>
-<tr><td>悲伤/孤独/回忆</td><td><code>desaturated, muted, overcast</code></td><td>褪色老照片</td></tr>
-</tbody></table></div>
-<div class="tip-card tip"><span class="tip-icon">💡</span><span>去哪找高质量场景参考？Pinterest 搜 "environment concept art"；film-grab.com 按电影看色调光影；你手机相册里真实照片也是最好的参考库。</span></div>
+<div class="step-hero">
+  <div class="step-number">🏠 03</div>
+  <div class="step-title">场景设计 — 让环境"不乱变"</div>
+  <div class="step-subtitle">第3镜的窗户在左边，第5镜跑到了右边——观众可能说不清哪里不对，但他们的大脑已经标记了"这不对"。</div>
+</div>
+
+<div class="explain-block what">
+  <h4>🔍 场景母代码——场景的"身份证"</h4>
+  <p>场景设计就是把剧本里每个地点"拍一张身份证"——锁定它的<strong>标志物、光源、色调、空间结构</strong>。之后生成这个场景的任何镜头时，<strong>原封不动</strong>粘贴同一段母代码。场景不一致虽然观众不一定能说清楚，但<strong>会让他们感到"不舒服"、"出戏"、"有点假"</strong>——这就是潜意识的穿帮。</p>
+</div>
+
+<div class="explain-block why">
+  <h4>💡 为什么场景是第二大翻车点？</h4>
+  <p>第一镜卧室床头柜白色 → 第三镜变棕色 → 弹幕"这个床头柜会变色"；第一镜窗户在左 → 第五镜跑右边 → 空间感崩塌；咖啡馆从暖黄变冷白 → 氛围断裂。场景设计的目的 = <strong>锁死背景变量</strong>，让观众的大脑把注意力放在你的角色和故事上。</p>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">📐 场景母代码四要素</h2>
+
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">四个要素<strong>必须写全</strong>，少一个都可能出问题：</p>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>要素</th><th>通俗理解</th><th>必须写到什么程度</th><th>示例</th></tr></thead>
+<tbody>
+<tr><td><strong>标志性物体</strong></td><td>场景里最显眼的东西</td><td>具体到颜色+材质+位置</td><td><code>Red vintage cash register on the wooden counter</code></td></tr>
+<tr><td><strong>光源与时间</strong></td><td>什么时候、什么光</td><td>时间+光源方向+质感</td><td><code>Afternoon sunlight, 45-degree from left window, soft shadows</code></td></tr>
+<tr><td><strong>色调风格</strong></td><td>整体配色方案</td><td>主色+辅色+风格词</td><td><code>Warm amber palette, brick red + cream + dark wood</code></td></tr>
+<tr><td><strong>空间结构</strong></td><td>窗户/门/天花板在哪</td><td>关键建筑元素的方位</td><td><code>High ceiling, large window on left wall, door on right</code></td></tr>
+</tbody>
+</table>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🛠️ 四步操作流程</h2>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">第1步：列出剧本里所有场景</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">一部1-2分钟的AI漫剧通常只需<strong>2-3个场景</strong>（卧室/咖啡厅/街道等）。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">第2步：给每个场景写母代码</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🏠 咖啡馆场景母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">温馨咖啡馆，复古工业风，裸露红砖墙面，吧台上有一台黄铜色复古收银机，
+午后阳光从左墙大落地窗45度照入，暖琥珀色调，深棕色木地板，
+高天花板，左侧大窗，右侧吧台，深处通往后厨的门。</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">第3步：生成场景母版图</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">即梦→图片生成→输入母代码→多生成几张→挑最满意的保存为<code>场景名_母版.jpg</code></p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">第4步：在所有分镜中复用</h4>
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>镜头</th><th>提示词结构</th></tr></thead>
+<tbody>
+<tr><td>女主喝咖啡（特写）</td><td><code>Silver hair girl drinking coffee, close up, + [场景母代码]</code></td></tr>
+<tr><td>男主推门（远景）</td><td><code>Man entering door, wide shot, + [场景母代码]</code></td></tr>
+<tr><td>两人对话（中景）</td><td><code>Two people talking at counter, medium shot, + [场景母代码]</code></td></tr>
+</tbody>
+</table>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🏠 场景母代码模板库</h2>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">温馨卧室</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🛏️ 卧室母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">[角色名]的卧室，温馨简约风格，米色墙壁配深色木地板，
+左侧大窗午后阳光45度照入，暖黄色调，
+双人床靠右墙，白色床单上有几个彩色靠枕，
+床头柜上放着台灯和相框，地面散落几本书，
+高天花板，左侧大窗，右侧床，对门是衣柜。</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">霸总办公室</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>💼 办公室母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">现代化CEO办公室，冷灰色调，落地窗占满整面背景墙，
+清晨冷白光从窗外照入，低色温(6500K)，
+黑色真皮老板椅，深色实木办公桌，桌上银色MacBook和咖啡杯，
+左侧落地窗俯瞰城市天际线，右侧是书架墙，
+空间感：30平米以上，4米挑高。</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">校园教室</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>📚 教室母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">中国高中教室，阳光明媚的上午，日光灯+自然光混合，
+浅绿色墙壁，米黄色地砖，明亮通透色调，
+40张木质课桌排成四列，黑板上有粉笔字迹，
+讲台上放着教案和粉笔盒，窗台上几盆绿植，
+前门黑板，左侧大窗，后门通走廊，标准3米层高。</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">赛博朋克街道</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>🌃 赛博朋克母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">cyberpunk night street, heavy rain,
+neon signs in magenta+cyan+yellow reflecting on wet pavement,
+steam rising from street vents, holographic billboards flickering,
+low angle, dramatic contrast, blue-purple ambient light,
+8K, cinematic lighting, blade runner aesthetic</div>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">古风仙山</h4>
+<div class="prompt-block">
+  <div class="prompt-header"><span>⛰️ 古风仙山母代码</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div>
+  <div class="prompt-content">中国古风仙侠，悬浮在云海之上的仙山群峰，清晨，
+金色晨光从东方穿过云层，云雾缭绕，暖金+白色调，
+山峰上有古老的松树和凉亭，瀑布从悬崖垂落消失在云中，
+远处有仙鹤飞舞，近处岩石上青苔斑驳，
+广角远景，2/3天空+1/3山峰，宏伟庄严。</div>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">💡 光影情绪对照表</h2>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>想传达的情绪</th><th>光源描述</th><th>色调</th></tr></thead>
+<tbody>
+<tr><td>温馨/治愈</td><td><code>warm afternoon sunlight, soft shadows, golden hour</code></td><td>暖琥珀、米黄</td></tr>
+<tr><td>悬疑/紧张</td><td><code>single overhead light, harsh shadows, low-key</code></td><td>暗绿、冷蓝</td></tr>
+<tr><td>浪漫/爱情</td><td><code>golden hour backlight, soft rim light, candlelight</code></td><td>暖橙、粉金</td></tr>
+<tr><td>孤独/悲伤</td><td><code>overcast, diffused light, cool blue hour</code></td><td>低饱和、冷灰</td></tr>
+<tr><td>史诗/霸气</td><td><code>dramatic side light, strong contrast, low angle sun</code></td><td>金橙、深蓝</td></tr>
+<tr><td>科技/未来</td><td><code>neon light, cool white, blue-purple ambient</code></td><td>冷蓝、霓虹紫</td></tr>
+<tr><td>恐怖/惊悚</td><td><code>flashlight beam, pitch black shadows, single source</code></td><td>暗红、墨绿</td></tr>
+<tr><td>日常/生活</td><td><code>natural daylight, even soft shadows</code></td><td>自然色</td></tr>
+</tbody>
+</table>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🔒 场景一致性进阶技巧</h2>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">种子（Seed）控制</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">生成满意的第一张场景图后<strong>记录Seed值</strong>，生成同场景其他镜头时使用相同Seed，<strong>只改角色描述和镜头角度</strong>。如果工具不支持Seed（如即梦免费版），用<strong>复制粘贴相同场景母代码</strong>来替代。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">多视角底图库</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);">提前为每个场景生成 全景+中景+细节 三组底图，后续所有同场景镜头都有明确参考。</p>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">🌐 三大光源铁律</h4>
+<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">
+  <li><strong>主光永远有方向</strong> — 禁用平光。写清楚光从哪边来。</li>
+  <li><strong>角色边缘必须有1-2像素轮廓光</strong> — 逆光勾边，把人从背景中"拉"出来。</li>
+  <li><strong>环境光与场景色调一致</strong> — 冷蓝场景补冷蓝光，暖黄场景补暖黄光。</li>
+</ol>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🐛 做坏了怎么办？</h2>
+
+<div class="data-table-wrapper">
+<table>
+<thead><tr><th>问题</th><th>症状</th><th>诊断</th><th>解决方案</th></tr></thead>
+<tbody>
+<tr><td><strong>背景穿帮</strong></td><td>床头柜颜色变了</td><td>没用母代码</td><td>写场景母代码→每次复制粘贴，不手打</td></tr>
+<tr><td><strong>窗户位置乱跑</strong></td><td>第1镜左窗第3镜右窗</td><td>空间结构没写死</td><td>母代码明确写"large window on left wall"</td></tr>
+<tr><td><strong>光影不统一</strong></td><td>同一场景忽冷忽暖</td><td>光源描述不一致</td><td>锁定"Afternoon sunlight, 45-degree"不变</td></tr>
+<tr><td><strong>色调跳跃</strong></td><td>一个场景三个颜色</td><td>缺色彩锚定</td><td>末尾固定"warm amber tone"</td></tr>
+<tr><td><strong>角色像P上去的</strong></td><td>光影不合</td><td>角色场景分开生成</td><td>图生图+场景底图做参考，AI自动融合</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="tip-card tip" style="margin-top:20px;">
+  <span class="tip-icon">📖</span>
+  <span><strong>延伸资源：</strong>Pinterest 搜 "environment concept art"；film-grab.com 按电影看色调光影；手机相册里真实世界的照片也是最好的场景参考库。</span>
+</div>
 `},
 
   step4: { number:'04',icon:'🎬',title:'分镜脚本 — 从写手变导演',label:'从写手变导演',
