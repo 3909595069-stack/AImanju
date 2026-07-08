@@ -963,7 +963,7 @@ for(const [k,v] of Object.entries(STEP_TEMPLATES)){
 
 // Configuration: path to Obsidian vault (relative or absolute)
 const VAULT_BASE = '../../Obsidian下载/AI manju';  // relative path from ai-manhua-guide to vault
-const USE_DYNAMIC_MD = true;         // enabled: read directly from Obsidian vault Markdown files
+const USE_DYNAMIC_MD = false;        // SET TO TRUE when serving via HTTP server with vault accessible
 
 // Map step IDs to vault markdown files
 const MD_MAP = {
@@ -1106,9 +1106,11 @@ async function loadMdContent(stepId) {
     const resp = await fetch(mdPath);
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
     const md = await resp.text();
-    return mdToHtml(md);
+    const html = mdToHtml(md);
+    if (html && html.trim().length > 0) return html;
+    throw new Error('MD converted to empty HTML');
   } catch(e) {
-    console.warn('Failed to load MD for', stepId, ':', e.message);
+    console.warn('⚠️ MD fetch failed for ' + stepId + ', using inline fallback. Error: ' + e.message);
     return null;
   }
 }
