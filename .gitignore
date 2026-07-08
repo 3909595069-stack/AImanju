@@ -1,0 +1,44 @@
+# AI manju — AI漫剧数据库
+
+本仓库是 [AI漫剧入门完全指南](https://github.com/CREAiOSdeveloper/AImanju) 的 Obsidian Vault 内容源，包含制作 AI 漫剧所需的全部知识、模板、工具清单和参考资源。
+
+## 🗂️ 目录结构
+
+```
+AI manju/
+├── .obsidian/          # Obsidian 配置
+├── README.md           # 数据库总览
+├── 01_剧本创作/         # 选题/叙事/提示词/范例
+├── 02_角色设计/         # 三视图/一致性方案
+├── 03_场景设计/         # 母代码/光影/色调
+├── 04_分镜脚本/         # 景别/运镜/模板
+├── 05_批量生图/         # 提示词公式/负面词
+├── 06_图生视频/         # 工具对比/运镜原则
+├── 07_配音音效/         # 混音公式/BGM资源
+├── 08_剪辑合成/         # 剪映流程/调色参数
+├── 09_发布运营/         # 多平台策略
+├── 10_参考资料/         # 工具清单/避坑/资源
+├── _templates/          # Obsidian 模板
+└── _assets/             # 附件（图片/PDF等）
+```
+
+## 🔗 相关链接
+
+- **前端网站:** `C:\Users\admin\Desktop\ai-manhua-guide\index.html`
+- **本地服务器:** `http://127.0.0.1:8080/index.html`
+
+## 🔄 同步机制
+
+1. 所有内容以 Obsidian Markdown 文件为唯一真相源
+2. 修改 MD 文件 → `git commit` + `git push` → GitHub 云端同步
+3. 前端网站通过 fetch 读取 MD 文件内容渲染
+
+## 🚀 快速开始
+
+```bash
+# 克隆仓库
+git clone https://github.com/CREAiOSdeveloper/AImanju.git
+
+# 用 Obsidian 打开
+# Obsidian → 打开其他库 → 选择 AI manju 文件夹
+```
