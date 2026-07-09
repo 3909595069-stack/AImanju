@@ -2732,26 +2732,180 @@ low angle, dramatic contrast, blue-purple ambient light,
 
   step8: { number:'08',icon:'✂️',title:'剪辑合成 — 把所有东西拼在一起',label:'拼成一部剧',
     content:`
-<div class="step-hero"><div class="step-number">✂️ 08</div><div class="step-title">剪辑合成 — 把所有东西拼在一起</div><div class="step-subtitle">排列→删抽搐帧→调节奏→加转场→导入配音→音量分层→字幕→调色→导出</div></div>
-<h4 style="margin:20px 0 10px;font-size:0.95rem;">✂️ 剪映9步流程</h4>
-<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">
-<li><strong>排列素材</strong> — 按分镜顺序拖到时间轴</li>
-<li><strong>删AI抽搐帧</strong> — 每个片段删开头0.5s和结尾0.5s</li>
-<li><strong>调整节奏</strong> — 紧张1.5-2s/镜，对话2-3s，抒情4-6s</li>
-<li><strong>加转场</strong> — 90%硬切，少数淡入淡出(0.5s)，<strong>不要花哨！</strong></li>
-<li><strong>导入配音</strong> — 对口型，偏差不超过0.2s</li>
-<li><strong>音量分层</strong> — 按上一步的混音公式</li>
-<li><strong>加字幕</strong> — 剪映智能字幕，思源黑体，字号18-22</li>
-<li><strong>统一调色</strong> — 色温/饱和度/对比度/锐化，同场景复制粘贴</li>
-<li><strong>导出</strong> — 1080P,30fps,MP4(H.264),码率8-10Mbps</li></ol>
-<h4 style="margin:20px 0 10px;font-size:0.95rem;">🎨 调色参数建议</h4>
-<div class="data-table-wrapper"><table><thead><tr><th>参数</th><th>建议</th><th>作用</th></tr></thead><tbody>
-<tr><td>色温</td><td>暖色+5~+10, 冷色-5~-10</td><td>统一冷暖</td></tr>
-<tr><td>饱和度</td><td>-5~-10</td><td>AI图通常太鲜艳</td></tr>
-<tr><td>对比度</td><td>+5~+10</td><td>增加立体感</td></tr>
-<tr><td>锐化</td><td>+10~+20</td><td>弥补AI柔感</td></tr>
+<div class="step-hero"><div class="step-number">✂️ 08</div><div class="step-title">剪辑合成 — 把所有东西拼在一起</div><div class="step-subtitle">剪辑<strong>不是排队</strong>——把20个片段按顺序排好不叫剪辑。剪辑 = <strong>选择 + 节奏</strong>。这是最后一道质量关口。</div></div>
+
+<div class="explain-block why"><h4>💡 剪辑为什么是二次创作？</h4><p>①同一素材给职业剪辑师和普通人——剪出两部完全不同的作品 ②节奏是短片的生命，节奏对了"好看"，节奏不对"好困" ③这是质量最后关口——分镜阶段没想到的问题，现在修比发布后删视频代价小得多。</p></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🛠️ 剪映专业版 10 步完整流程</h2>
+<ol style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.5;">
+<li><strong>新建项目</strong> — 叙事短片16:9横屏 / 抖音快手9:16竖屏</li>
+<li><strong>导入素材</strong> — 按镜号重命名：<code>S01_全景</code> <code>S02_中景</code></li>
+<li><strong>粗剪</strong> — 按分镜顺序排好，不调时长，只确认顺序</li>
+<li><strong>精剪</strong> — <strong>删AI抽搐帧(开头+结尾各0.5s)</strong>，精确控制每个镜头时长</li>
+<li><strong>转场设计</strong> — 90%硬切 + 10%淡入淡出，绝不花哨</li>
+<li><strong>音频轨</strong> — 配音+BGM+音效分层放置，开启Ducking闪避</li>
+<li><strong>关键帧动画</strong> — 缩放/位移/旋转/透明度模拟运镜</li>
+<li><strong>字幕设计</strong> — 智能字幕→思源黑体→字号18-22→校对错别字</li>
+<li><strong>统一调色</strong> — 调节层覆盖全片，一套参数统一风格</li>
+<li><strong>导出</strong> — 按平台规格，手动设码率≥8Mbps</li></ol>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">📊 节奏控制深度指南</h2>
+
+<div class="data-table-wrapper"><table><thead><tr><th>内容类型</th><th>建议时长</th><th>心理原理</th></tr></thead><tbody>
+<tr><td>⚡ <strong>钩子开场</strong></td><td><strong>0.5-1.5秒</strong></td><td>第一秒必须炸裂——不解释、不铺垫、直接高潮</td></tr>
+<tr><td>⚡ <strong>紧张/动作</strong></td><td><strong>1.5-2秒</strong></td><td>短促=紧张感，观众来不及看够就推走</td></tr>
+<tr><td>💬 <strong>对话</strong></td><td><strong>2-3秒</strong></td><td>说完对白后多留0.3-0.5秒接收信息</td></tr>
+<tr><td>☕ <strong>日常动作</strong></td><td><strong>2-4秒</strong></td><td>完整微动作需要这个时长来"完成"</td></tr>
+<tr><td>🌅 <strong>抒情/空镜</strong></td><td><strong>4-6秒</strong></td><td>给观众呼吸，靠"长"积累情绪</td></tr>
+<tr><td>👁️ <strong>特写（情绪）</strong></td><td><strong>2-3秒</strong></td><td>情绪密度高，过长反而尴尬</td></tr>
+<tr><td>🏙️ <strong>建立镜头</strong></td><td><strong>3-5秒</strong></td><td>新场景第一个镜头需足够长建立空间认知</td></tr>
 </tbody></table></div>
-<div class="tip-card warning"><span class="tip-icon">⚠️</span><span><strong>新手最常犯的错：加太多花哨转场。</strong>好的剪辑让人注意不到转场的存在。90%硬切。不要用翻页、旋转等炫技转场。</span></div>
+
+<div class="golden-box" style="margin-top:12px;">
+<strong>⚡ 5-10秒新刺激点法则：</strong>每5-10秒需要一个新刺激点（画面变化/台词亮点/音效转折），否则观众会划走。<br>
+<strong>自查方法：</strong>闭眼听一遍全片——不看画面只感受节奏。哪段想快进，那段就有问题。
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🎨 调色工程——从校正到风格化</h2>
+
+<h4 style="font-size:0.95rem;margin:12px 0 8px;">🎬 六种风格化调色一览</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>风格</th><th>色温</th><th>饱和度</th><th>对比度</th><th>锐化</th><th>特效</th></tr></thead><tbody>
+<tr><td>🎬 <strong>电影感</strong></td><td>-3~-5偏冷</td><td>-5~-10</td><td>+10~+15</td><td>+15~+20</td><td>暗角+10，褪色+3~+5</td></tr>
+<tr><td>🌸 <strong>日系小清新</strong></td><td>+3~+5偏暖</td><td>+8~+12</td><td>-5~0</td><td>+10~+15</td><td>高光提亮、略微过曝</td></tr>
+<tr><td>🌃 <strong>赛博朋克</strong></td><td>-8~-12极冷</td><td>+15~+25</td><td>+15~+20</td><td>+20~+25</td><td>蓝紫偏移、洋红高光</td></tr>
+<tr><td>📼 <strong>复古胶片</strong></td><td>+5~+8</td><td>-8~-15</td><td>+5~+10</td><td>+5~+10</td><td>褪色+10，颗粒+5</td></tr>
+<tr><td>🏯 <strong>古风唯美</strong></td><td>+5~+8暖</td><td>-5~0</td><td>-5~0</td><td>+5~+10</td><td>暗部提亮、柔光</td></tr>
+<tr><td>🎭 <strong>悬疑暗黑</strong></td><td>-5~-10冷</td><td>-15~-25</td><td>+15~+20</td><td>+10~+15</td><td>暗角+15，暗部压低</td></tr>
+</tbody></table></div>
+
+<div class="tip-card success" style="margin-top:12px;"><span class="tip-icon">🎯</span><span><strong>LUT使用铁律：</strong>①先校正曝光+白平衡再套LUT——底子不对什么都丑 ②LUT强度降到<strong>30-60%</strong>——满强度=廉价感，专业调色师从不用100% ③套完检查肤色——人脸变橙变绿立刻降强度或用HSL单独修</span></div>
+
+<div class="golden-box" style="margin-top:8px;"><strong>🎨 调色五大黄金法则：</strong>①一部片一套色 ②先调色温再其他 ③调节层覆盖全片统一调色 ④少即是多——千万别每个参数拉到极限 ⑤<strong>导出后在手机上检查——90%观众用手机看</strong></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">✂️ 转场设计与关键帧动画</h2>
+
+<div class="data-table-wrapper"><table><thead><tr><th>转场类型</th><th>时长</th><th>使用频率</th><th>适用场景</th></tr></thead><tbody>
+<tr><td><strong>硬切 Cut</strong></td><td>0帧</td><td><strong>90%</strong></td><td>绝大多数镜头切换——专业电影95%都是硬切</td></tr>
+<tr><td><strong>淡入淡出 Fade</strong></td><td>0.5-1秒</td><td>5%</td><td>时间/空间变化——"一段时间过去了"</td></tr>
+<tr><td><strong>叠化 Dissolve</strong></td><td>0.3-0.5秒</td><td>3%</td><td>两画面关联——"同时发生"或"脑中画面"</td></tr>
+<tr><td><strong>黑场过渡</strong></td><td>0.3-0.5秒</td><td>2%</td><td>情绪转折、场景大切换</td></tr>
+</tbody></table></div>
+
+<div class="tip-card danger" style="margin-top:8px;"><span class="tip-icon">❌</span><span><strong>绝对禁止：</strong>翻页/百叶窗/3D翻转/星形擦除/棋盘格——这些都是廉价的炫技，让作品一秒变业余。<strong>如果观众注意到了你的转场方式——你已经失败了。</strong></span></div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">🔑 关键帧动画——弥补AI视频运镜不足</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>动画类型</th><th>实现方式</th><th>适用场景</th></tr></thead><tbody>
+<tr><td><strong>缩放推拉</strong></td><td>首帧100%→尾帧105-110%</td><td>模拟缓推镜头，情绪升级</td></tr>
+<tr><td><strong>水平横摇</strong></td><td>首帧居中→尾帧偏移±10%</td><td>模拟慢横摇，场景建立</td></tr>
+<tr><td><strong>不透明度过渡</strong></td><td>100%→0% 或反之</td><td>淡入淡出、梦境/回忆过渡</td></tr>
+<tr><td><strong>蒙版+关键帧</strong></td><td>蒙版从无→滑动到目标</td><td>拉幕式渐变转场</td></tr>
+<tr><td><strong>组合关键帧</strong></td><td>缩放+位移+旋转同时</td><td>模拟复杂运镜（谨慎）</td></tr>
+</tbody></table></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">📝 字幕设计规范</h2>
+
+<div class="data-table-wrapper"><table><thead><tr><th>参数</th><th>推荐值</th><th>说明</th></tr></thead><tbody>
+<tr><td><strong>字体</strong></td><td>思源黑体 / 阿里巴巴普惠体</td><td>免费可商用，清晰度最高</td></tr>
+<tr><td><strong>字号</strong></td><td>18-22（1080P）</td><td>手机竖屏可稍大(20-24)</td></tr>
+<tr><td><strong>位置</strong></td><td>底部10-15%安全区</td><td>不要贴边——留呼吸空间</td></tr>
+<tr><td><strong>颜色</strong></td><td>纯白 #FFFFFF + 黑色描边 1-2px</td><td>最清晰、最通用</td></tr>
+<tr><td><strong>背景阴影</strong></td><td>30-50%透明度黑底</td><td>极限浅背景的保障</td></tr>
+<tr><td><strong>单行字数</strong></td><td><strong>不超过18字</strong></td><td>超过就换行或拆分</td></tr>
+</tbody></table></div>
+
+<div class="golden-box" style="margin-top:8px;"><strong>📝 字幕黄金原则：</strong>如果观众注意到了你的字幕特效——说明你加多了。好字幕让观众"读了但没注意到"。<br>常规对白用<strong>淡入淡出</strong>就好，打字机效果只用于聊天记录/内心独白。</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">📦 导出规格——2025全平台最佳参数</h2>
+
+<div class="data-table-wrapper"><table><thead><tr><th>参数</th><th>抖音/快手</th><th>B站</th><th>小红书</th><th>通用存档</th></tr></thead><tbody>
+<tr><td><strong>画幅</strong></td><td>9:16竖</td><td>16:9横</td><td>3:4竖</td><td>16:9横</td></tr>
+<tr><td><strong>分辨率</strong></td><td>1080×1920</td><td>1920×1080</td><td>1080×1440</td><td>1920×1080</td></tr>
+<tr><td><strong>帧率</strong></td><td>30fps</td><td>24/30fps</td><td>30fps</td><td>24fps</td></tr>
+<tr><td><strong>编码</strong></td><td>H.264</td><td>H.264</td><td>H.264</td><td>H.264</td></tr>
+<tr><td><strong>码率</strong></td><td>10-12Mbps</td><td>10-15Mbps</td><td>8-10Mbps</td><td>15-20Mbps</td></tr>
+<tr><td><strong>音频</strong></td><td>AAC 320k</td><td>AAC 320k</td><td>AAC 320k</td><td>AAC 320k</td></tr>
+</tbody></table></div>
+
+<div class="tip-card danger" style="margin-top:12px;"><span class="tip-icon">⚠️</span><span><strong>导出避坑：</strong>①<strong>码率千万别用默认值</strong>——那是画质模糊的元凶，必须手动拉到8Mbps以上 ②1080P素材别导出4K——不会变清晰只会浪费体积 ③勾选"高质量编码"+开启硬件加速(速度×3) ④<strong>导出后必须用手机打开检查一遍</strong></span></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🎬 叙事结构——让你的短片有"剧感"</h2>
+
+<div class="prompt-block"><div class="prompt-header"><span>📐 三幕式微缩结构（1-3分钟AI漫剧专用）</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div><div class="prompt-content">┌──────────────────────────────────────────┐
+│ 钩子 Hook (0-5s)     │ 高潮 Climax (中段偏后) │
+│ 最炸裂的画面怼到第一秒  │ 情绪爆发的顶点          │
+│ ↓                    │ ↓                      │
+│ 发展 Build-up         │ 结尾 CTA (最后5s)      │
+│ 情绪递进+信息推进      │ "关注/点赞/追后续"       │
+└──────────────────────────────────────────┘</div></div>
+
+<h4 style="font-size:0.95rem;margin:12px 0 8px;">四种蒙太奇句型</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>句型</th><th>镜头运动方向</th><th>心理效果</th></tr></thead><tbody>
+<tr><td><strong>前进式</strong></td><td>全景→中景→近景→特写</td><td>逐步揭示、引导注意力深入</td></tr>
+<tr><td><strong>后退式</strong></td><td>特写→近景→中景→全景</td><td>从细节到全貌、制造悬念</td></tr>
+<tr><td><strong>环形</strong></td><td>全景→特写→全景</td><td>时空交错、首尾呼应</td></tr>
+<tr><td><strong>积累式</strong></td><td>相似镜头重复叠加</td><td>主题强化、情绪堆叠</td></tr>
+</tbody></table></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🚫 剪辑十大翻车与排错</h2>
+
+<div class="data-table-wrapper"><table><thead><tr><th>#</th><th>问题</th><th>标准解法</th></tr></thead><tbody>
+<tr><td>1</td><td>🗑️ <strong>镜头间闪烁/跳帧</strong></td><td><strong>删开头0.5s和结尾0.5s——铁律</strong></td></tr>
+<tr><td>2</td><td>🔊 <strong>BGM压过人声</strong></td><td>开启音频闪避(Ducking)→选人声轨为触发源</td></tr>
+<tr><td>3</td><td>🎨 <strong>画面色彩不统一</strong></td><td>调节层覆盖全片 + 同场景复制粘贴调色参数</td></tr>
+<tr><td>4</td><td>🗣️ <strong>配音画面不同步</strong></td><td>先放配音轨→根据配音节奏调整画面时长</td></tr>
+<tr><td>5</td><td>📉 <strong>导出画质变糊</strong></td><td>手动设码率≥8Mbps + 勾选"高质量编码"</td></tr>
+<tr><td>6</td><td>⏱️ <strong>全片太长/太短</strong></td><td>新手1-3分钟最优，超过5分钟需极强节奏控制</td></tr>
+<tr><td>7</td><td>🎭 <strong>花哨转场毁质感</strong></td><td>硬切=专业感，花哨转场=业余感。90%硬切</td></tr>
+<tr><td>8</td><td>📱 <strong>电脑好手机差</strong></td><td>导出后必须用手机打开检查——这是观众真实体验</td></tr>
+<tr><td>9</td><td>🖼️ <strong>分辨率黑边</strong></td><td>项目创建时就选对画幅——16:9素材别导出9:16</td></tr>
+<tr><td>10</td><td>🔁 <strong>多次转码劣化</strong></td><td>所有调整工程内一次完成→只导出一次成品</td></tr>
+</tbody></table></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🧰 工具链与学习资源</h2>
+
+<div class="data-table-wrapper"><table><thead><tr><th>工具</th><th>类型</th><th>费用</th><th>推荐理由</th></tr></thead><tbody>
+<tr><td><strong>剪映专业版</strong></td><td>一站式</td><td>免费</td><td>最适合AI漫剧创作者——剪辑+调色+字幕+AI</td></tr>
+<tr><td><strong>DaVinci Resolve</strong></td><td>专业调色</td><td>免费版极强</td><td>调色行业最强，节点式调色</td></tr>
+<tr><td><strong>CapCut</strong></td><td>剪辑</td><td>免费</td><td>剪映国际版，国际化特效更多</td></tr>
+<tr><td><strong>HandBrake</strong></td><td>转码</td><td>免费</td><td>无损压缩、码率精准控制</td></tr>
+<tr><td><strong>Topaz Video AI</strong></td><td>AI增强</td><td>付费</td><td>超分辨率+补帧+降噪，老素材救星</td></tr>
+</tbody></table></div>
+
+<h4 style="font-size:0.95rem;margin:12px 0 8px;">📚 学习资源</h4>
+<ul style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">
+  <li><strong>书籍</strong>：《剪映专业版全系实操课程》《短视频剪辑核心技法》《视频剪辑自学通》（2025出版）</li>
+  <li><strong>B站搜索</strong>：「剪映专业版 关键帧教程」「剪映调色 电影感」「DaVinci Resolve 入门」「AI漫剧 剪辑流程」</li>
+  <li><strong>影片学习</strong>：反复拉片——把一部优秀短片的每个镜头时长列出来，分析它的节奏设计</li>
+</ul>
+
+<div class="golden-box" style="margin-top:16px;">
+<strong>✂️ 剪辑合成核心心法</strong><br>
+<span style="color:var(--text-secondary);">
+<strong>剪辑 = 选择 + 节奏。</strong>不是把碎片拼在一起，是重新创造一部作品。<br>
+90%硬切。删掉每个片段开头和结尾0.5秒。每5-10秒一个新刺激点。<br>
+一部片一套色。LUT强度30-60%。码率手动设≥8Mbps。导出后必须用手机检查。<br>
+好剪辑让观众注意不到剪辑的存在。如果观众注意到了你的转场和字幕特效——你已经失败了。<br>
+<strong>剪辑的底层逻辑 = 信息密度 + 情绪张力。你不是叙事者，你是情绪的操盘手。</strong>
+</span>
+</div>
 `},
 
   step9: { number:'09',icon:'🚀',title:'发布 & 运营 — 让作品被看到',label:'让作品被看到',
