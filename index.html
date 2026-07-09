@@ -2075,23 +2075,240 @@ low angle, dramatic contrast, blue-purple ambient light,
 
 	  step5: { number:'05',icon:'🖼️',title:'批量生图 — 把分镜变成画面',label:'文字变成画面',
     content:`
-<div class="step-hero"><div class="step-number">🖼️ 05</div><div class="step-title">批量生图 — 把分镜变成静态画面</div><div class="step-subtitle">先生成静态图（可以反复修改到满意），再把静态图"激活"成视频。这叫「图生视频」，是目前效果最好的方式。</div></div>
-<div class="explain-block why"><h4>💡 为什么先出图再生视频？</h4><p>直接文生视频虽然省事，但角色一致性极差。正确路径是先出图再让图动起来。</p></div>
-<h4 style="margin:20px 0 12px;font-size:0.95rem;">🎨 生图提示词万能公式</h4>
-<div class="prompt-block"><div class="prompt-header"><span>🎨 万能公式</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div><div class="prompt-content">[画风] + [景别] + [角色名(参考上传的图)] + [动作描述] + [场景母代码] + [光影] + [9:16竖屏]
+<div class="step-hero"><div class="step-number">🖼️ 05</div><div class="step-title">批量生图 — 把分镜变成静态画面</div><div class="step-subtitle">先生成静态图（可反复修改到满意），再把静态图"激活"成视频。这是目前效果最好的AI漫剧制作方式。</div></div>
 
-示例：二次元赛璐璐风格，中景，女孩陈闲（参考图1）蹲下查看地面，雨夜小巷场景，霓虹灯倒映在湿石板路面，蓝色冷调氛围光，9:16竖屏</div></div>
-<h4 style="margin:20px 0 12px;font-size:0.95rem;">🖌️ 画风关键词</h4>
-<div class="data-table-wrapper"><table><thead><tr><th>风格</th><th>关键词</th></tr></thead><tbody>
-<tr><td>日式二次元</td><td><code>manga style, cel shading, line art, japanese anime</code></td></tr>
-<tr><td>韩式条漫</td><td><code>manhwa style, webtoon, detailed line art, soft shading</code></td></tr>
-<tr><td>3D动画</td><td><code>3d animation, pixar-inspired, smooth rendering</code></td></tr>
-<tr><td>中国古风</td><td><code>chinese ink painting, gufeng, traditional art</code></td></tr>
-<tr><td>写实电影感</td><td><code>cinematic, photorealistic, film grain, shallow depth of field</code></td></tr>
+<div class="explain-block why"><h4>💡 为什么先出图再生视频？</h4><p>直接文生视频虽然省事，但角色一致性极差——每一秒都在掷骰子。生图是你对最终画面的最后一次精确控制：逐张验收、不对就重来、成本极低。</p></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🎨 生图提示词深度工程</h2>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">📐 三套万能公式</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>公式</th><th>结构</th><th>适合</th></tr></thead><tbody>
+<tr><td><strong>七要素全能版</strong></td><td><code>[主体] + [动作] + [环境] + [风格] + [构图] + [光影] + [画质]</code></td><td>通用/专业工具</td></tr>
+<tr><td><strong>六要素精简版</strong></td><td><code>[画风] + [场景母代码] + [角色外貌] + [动作表情] + [景别角度] + [光影色调]</code></td><td>即梦/国产工具</td></tr>
+<tr><td><strong>三阶提示词链</strong></td><td>阶段1角色定妆 → 阶段2场景注入 → 阶段3镜头精调</td><td>专业级/质量控制</td></tr>
 </tbody></table></div>
-<h4 style="margin:20px 0 12px;font-size:0.95rem;">🚫 必加负面提示词</h4>
-<div class="prompt-block"><div class="prompt-header"><span>🚫 负面词</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div><div class="prompt-content">lowres, bad anatomy, bad hands, text, error, missing fingers, extra digits, blurry, watermark, username, 模糊, 低分辨率, 透视错误, 扭曲, 多余人物, 光影混乱, 水印, 文字乱码</div></div>
-<div class="tip-card danger"><span class="tip-icon">🐛</span><span><strong>手指扭曲？</strong>AI画手的天生缺陷。① 尽量让人物手背在身后/插兜/握拳 ② 负面词加 <code>bad hands, extra fingers</code></span></div>
+
+<div class="golden-box" style="margin-top:16px;">
+<strong>🔗 三阶提示词链（Prompt Chaining）——2025最佳实践</strong><br>
+<span style="color:var(--text-secondary);">拆成三步迭代：①先生成纯角色定妆（中性背景）→ ②注入场景+动作 → ③精调景别+角度+特效。<br>
+一条超长prompt AI容易"迷失重点"。分步迭代每步只解决一个问题，最终效果远优于一步到位。</span>
+</div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">⚖️ 提示词权重控制语法</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>工具</th><th>加强</th><th>减弱</th><th>交替融合</th></tr></thead><tbody>
+<tr><td><strong>Stable Diffusion</strong></td><td><code>(关键词:1.3)</code></td><td><code>(关键词:0.7)</code></td><td><code>[选项A|选项B]</code></td></tr>
+<tr><td><strong>Midjourney</strong></td><td><code>关键词::2</code></td><td><code>关键词::-0.5</code></td><td><code>{选项A, 选项B}</code></td></tr>
+<tr><td><strong>即梦/豆包</strong></td><td>靠位置（越前越重要）</td><td>放后面</td><td>不支持</td></tr>
+</tbody></table></div>
+
+<div class="tip-card success" style="margin-top:16px;">
+<span class="tip-icon">🤖</span><span><strong>2025前沿：AI自动写Prompt。</strong>腾讯混元PromptEnhancer框架——输入"穿宇航服的汤姆猫"→自动输出150+词专业级提示词。漫画属性绑定/空间关系准确率提升15-17%。</span>
+</div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🤖 主流生图工具全维度对比</h2>
+
+<div class="data-table-wrapper"><table><thead><tr><th>维度</th><th>即梦 4.0</th><th>Midjourney V7</th><th>SD+ComfyUI</th><th>Flux.1</th></tr></thead><tbody>
+<tr><td><strong>中文理解</strong></td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐</td><td>⭐⭐</td><td>⭐⭐</td></tr>
+<tr><td><strong>角色一致性</strong></td><td>⭐⭐⭐⭐（参考图）</td><td>⭐⭐⭐⭐⭐（--oref）</td><td>⭐⭐⭐⭐⭐（LoRA）</td><td>⭐⭐⭐⭐</td></tr>
+<tr><td><strong>风格控制</strong></td><td>⭐⭐⭐⭐</td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐⭐</td></tr>
+<tr><td><strong>批量效率</strong></td><td>⭐⭐⭐</td><td>⭐⭐⭐</td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐</td></tr>
+<tr><td><strong>上手难度</strong></td><td>⭐（极低）</td><td>⭐⭐</td><td>⭐⭐⭐⭐</td><td>⭐⭐</td></tr>
+<tr><td><strong>价格</strong></td><td>免费/68元/月</td><td>$30/月起</td><td>免费（需GPU）</td><td>免费（需GPU）</td></tr>
+<tr><td><strong>国内可用</strong></td><td>✅ 是</td><td>❌ 需翻墙</td><td>✅ 是</td><td>✅ 是</td></tr>
+<tr><td><strong>漫画最适用</strong></td><td>日常/治愈/甜宠</td><td>电影感/写实</td><td>专业流程/连载</td><td>插画品质</td></tr>
+</tbody></table></div>
+
+<div class="tip-card tip"><span class="tip-icon">🗺️</span><span><strong>新手路径：</strong>入门(0元)→即梦免费额度 | 进阶(68元/月)→即梦会员 | 专业(本地GPU)→ComfyUI+SDXL/Flux | 高端($30/月+翻墙)→Midjourney V7</span></div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">🔑 Midjourney角色一致性黑科技</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>参数</th><th>版本</th><th>用途</th><th>权重</th></tr></thead><tbody>
+<tr><td><code>--cref [URL]</code></td><td>V6.1/Niji</td><td>锁定角色面部+发型+服装</td><td><code>--cw 0-100</code></td></tr>
+<tr><td><code>--oref [URL]</code></td><td><strong>V7 (2025.5)</strong></td><td>全能参考——角色+物体+道具</td><td><code>--ow 0-1000</code></td></tr>
+<tr><td><code>--sref [URL]</code></td><td>V6/V7</td><td>锁定艺术风格（不影响角色）</td><td><code>--sw 0-1000</code></td></tr>
+</tbody></table></div>
+<div class="tip-card warning"><span class="tip-icon">💡</span><span><code>--cw 100</code>锁面部+发型+服装（默认）；<code>--cw 0</code>只锁面部可换装；<code>--oref + --sref</code>同时使用=角色是谁+什么画风=完美锁定。一句prompt可用两个<code>--oref</code>让双角色同框。</span></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">👤 角色一致性终极指南</h2>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">🔰 第一层：即梦「参考图」模式（零门槛）</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>参考强度</th><th>效果</th><th>适用场景</th></tr></thead><tbody>
+<tr><td>80-100%</td><td>面部+发型+服装完全一致</td><td>同场景换动作</td></tr>
+<tr><td>50-70%</td><td>保留面部+发型</td><td>换装/微调</td></tr>
+<tr><td>30-50%</td><td>仅保留面部特征</td><td>大幅换装/换背景</td></tr>
+</tbody></table></div>
+<div class="prompt-block" style="margin-top:12px;"><div class="prompt-header"><span>🔄 即梦角色一致三步法</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div><div class="prompt-content"># 第1步：生成角色定妆照
+古代小女孩，穿黄色汉服，双丸子头，圆脸杏眼。3D卡通风格，皮克斯风格，超精细建模，柔和光影，4K细节
+
+# 第2步：上传参考图 → 选择「角色特征」
+参考强度：70-80%（同场景） / 30-50%（换场景）
+
+# 第3步：用新场景提示词（保留核心关键词）
+古代小女孩在书桌前看书，古代室内，木质家具。3D卡通风格，皮克斯风格 --no 现代元素</div></div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">⚙️ 第二层：SD LoRA角色训练（专业级）</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>参数</th><th>推荐值</th><th>说明</th></tr></thead><tbody>
+<tr><td><strong>数据集</strong></td><td>15-30张高质量参考图</td><td>不同角度/表情/光照，质量>数量</td></tr>
+<tr><td><strong>Rank</strong></td><td>4-16</td><td>角色LoRA用rank 16足够</td></tr>
+<tr><td><strong>学习率</strong></td><td>1e-4 (0.0001)</td><td>范围0.0001-0.0005</td></tr>
+<tr><td><strong>步数</strong></td><td>800-1800（SDXL）</td><td>观察loss曲线防过拟合</td></tr>
+<tr><td><strong>分辨率</strong></td><td>768×768或1024×1024</td><td>取决于底模</td></tr>
+<tr><td><strong>触发词</strong></td><td>唯一标识，如<code>sarah_chara</code></td><td>生图时写这个词召唤角色</td></tr>
+</tbody></table></div>
+<div class="tip-card danger"><span class="tip-icon">⚠️</span><span><strong>训练翻车：</strong>只用正面照→LoRA不会画侧面；只有一种表情→换表情就崩；训练太久(>2000步)→过拟合。</span></div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">🧩 第三层：IP-Adapter + ControlNet（免训练）</h4>
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">IP-Adapter FaceID（面部特征注入，权重0.4-0.7）+ OpenPose ControlNet（锁定姿势）。综合一致性可达80%+，无需训练。</p>
+
+<div class="data-table-wrapper"><table><thead><tr><th>方案</th><th>时间投入</th><th>一致性</th><th>最适合</th></tr></thead><tbody>
+<tr><td>即梦参考图</td><td>即时</td><td>70-85%</td><td>新手/快速出片</td></tr>
+<tr><td>IP-Adapter + ControlNet</td><td>20-60分钟</td><td>70-80%</td><td>快速测试</td></tr>
+<tr><td>LoRA训练（单角色）</td><td>2-6小时</td><td>85-95%</td><td>连载/系列化</td></tr>
+<tr><td>LoRA + IP-Adapter + ControlNet</td><td>完整工作流</td><td>90%+</td><td>专业级制作</td></tr>
+</tbody></table></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🎭 画风关键词完全库</h2>
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:16px;">12种漫画常用风格 × 中英文关键词 × 推荐工具 × 关键参数。</p>
+
+<div class="data-table-wrapper"><table><thead><tr><th>风格</th><th>英文关键词（推荐参数）</th><th>工具</th></tr></thead><tbody>
+<tr><td><strong>日式动画</strong></td><td><code>Japanese anime, cel shading, Ghibli-inspired, clean lines, soft gradients</code></td><td>即梦4.0 / Niji</td></tr>
+<tr><td><strong>韩式网漫</strong></td><td><code>Korean webtoon, manhwa art, digital painting, smooth rendering, romantic palette</code></td><td>即梦4.0 / Niji</td></tr>
+<tr><td><strong>3D卡通</strong></td><td><code>3D Pixar-style, soft lighting, round shapes, subsurface scattering, C4D render</code></td><td>即梦 / MJ / SDXL</td></tr>
+<tr><td><strong>古风水墨</strong></td><td><code>Chinese ink wash, gufeng, watercolor texture, misty atmosphere, sumi-e</code></td><td>即梦 / MJ / SD+LoRA</td></tr>
+<tr><td><strong>写实电影</strong></td><td><code>photorealistic, cinematic lighting, 35mm film grain, anamorphic lens, 8K RAW</code></td><td>MJ V7 / SD+Realistic</td></tr>
+<tr><td><strong>赛博朋克</strong></td><td><code>cyberpunk, neon lights, rain-slicked streets, Blade Runner aesthetic, chromatic aberration</code></td><td>MJ / SDXL / ComfyUI</td></tr>
+<tr><td><strong>美式漫画</strong></td><td><code>American comic, bold ink lines, Ben-Day dots, halftone patterns, primary colors</code></td><td>MJ / SD+Comic LoRA</td></tr>
+<tr><td><strong>黑白线稿</strong></td><td><code>B&W manga, ink drawing, screentone, crosshatching, clean linework</code></td><td>SD+线稿LoRA / MJ</td></tr>
+<tr><td><strong>水彩插画</strong></td><td><code>watercolor painting, soft washes, paper texture, pastel tones, dreamy atmosphere</code></td><td>MJ / SD+水彩LoRA</td></tr>
+<tr><td><strong>90s复古动画</strong></td><td><code>90s anime aesthetic, cel animation, grainy film, VHS artifacts, retro palette</code></td><td>MJ / Niji / SD</td></tr>
+<tr><td><strong>浮世绘</strong></td><td><code>ukiyo-e, Japanese woodblock print, flat colors, bold outlines, Hokusai style</code></td><td>MJ / SD+专用LoRA</td></tr>
+<tr><td><strong>厚涂油画</strong></td><td><code>oil painting, thick brushstrokes, impasto, rich textures, palette knife marks</code></td><td>MJ / SD+油画LoRA</td></tr>
+</tbody></table></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">💡 光影色调情绪引擎</h2>
+<p style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:12px;">光影是画面的灵魂——决定了观众在<strong>0.1秒内</strong>的情绪反应。</p>
+
+<div class="data-table-wrapper"><table><thead><tr><th>光型</th><th>关键词</th><th>情绪</th></tr></thead><tbody>
+<tr><td>🌅 黄金时刻</td><td><code>golden hour light, warm sunset glow, amber tones</code></td><td>温暖、宁静、回忆</td></tr>
+<tr><td>🌙 蓝调时刻</td><td><code>blue hour, twilight, cool tones, soft diffused light</code></td><td>清冷、孤独、过渡</td></tr>
+<tr><td>☀️ 晨光</td><td><code>morning light, soft sunlight, gentle rays, fresh</code></td><td>希望、新生、宁静</td></tr>
+<tr><td>🌧️ 阴郁暗调</td><td><code>moody darkness, overcast, misty foggy, cold light</code></td><td>忧郁、神秘、压抑</td></tr>
+<tr><td>🌆 霓虹夜晚</td><td><code>neon lights, night city, rain reflections, ambient glow</code></td><td>迷幻、都市、孤独</td></tr>
+<tr><td>🔥 戏剧暖光</td><td><code>chiaroscuro, dramatic spotlight, Rembrandt lighting</code></td><td>厚重、紧张、古典</td></tr>
+</tbody></table></div>
+
+<div class="data-table-wrapper" style="margin-top:12px;"><table><thead><tr><th>打光法</th><th>关键词</th><th>适合</th></tr></thead><tbody>
+<tr><td><strong>伦勃朗光</strong></td><td><code>Rembrandt lighting, triangle of light under eye</code></td><td>人物肖像</td></tr>
+<tr><td><strong>电影光</strong></td><td><code>cinematic lighting, motivated lighting, atmospheric</code></td><td>剧情情感</td></tr>
+<tr><td><strong>霓虹光</strong></td><td><code>neon lights, colored gels, ambient city glow</code></td><td>赛博朋克</td></tr>
+<tr><td><strong>体积光</strong></td><td><code>volumetric lighting, god rays, Tyndall effect</code></td><td>神圣/梦幻</td></tr>
+</tbody></table></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🏭 工业化批量生图工作流</h2>
+
+<h4 style="font-size:0.95rem;margin:12px 0 8px;">📁 标准文件夹结构</h4>
+<div class="prompt-block"><div class="prompt-header"><span>📁 项目文件夹模板</span><button class="copy-btn" onclick="copyPrompt(this)">📋 复制</button></div><div class="prompt-content">📁 项目名/
+├── 📁 01_脚本素材/（剧本+分镜+提示词库）
+├── 📁 02_角色资产/（三视图+表情集+角色设定卡）
+├── 📁 03_场景资产/（每场景6-9张母版图）
+├── 📁 04_生图输出/（S01_全景_定稿.png, S02_中景_定稿.png...）
+├── 📁 05_后期精修/（放大超清+手指修复+统一调色）
+├── 📁 06_视频输出/
+└── 📁 07_参考资料/</div></div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">📊 生图进度追踪表</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>镜号</th><th>景别</th><th>描述</th><th>角色</th><th>场景</th><th>状态</th><th>定稿图</th><th>尝试</th><th>备注</th></tr></thead><tbody>
+<tr><td>S01</td><td>全景</td><td>咖啡馆外观，夜雨</td><td>无</td><td>场景01</td><td>✅</td><td><code>S01_定稿.png</code></td><td>3</td><td>前2次光影偏暗</td></tr>
+<tr><td>S02</td><td>中景</td><td>主角推门而入</td><td>主角</td><td>场景01</td><td>✅</td><td><code>S02_定稿.png</code></td><td>1</td><td>一次过</td></tr>
+<tr><td>S03</td><td>特写</td><td>手拿咖啡杯</td><td>主角</td><td>场景01</td><td>❌</td><td>—</td><td>4</td><td>手指扭曲</td></tr>
+</tbody></table></div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">✅ 生图质量检查清单</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>阶段</th><th>检查项</th></tr></thead><tbody>
+<tr><td><strong>生图前</strong></td><td>角色三视图确认 ✅ 场景母版图已建立 ✅ 提示词完整(6要素) ✅ 统一比例(9:16) ✅ 负面词统一准备 ✅</td></tr>
+<tr><td><strong>生图中</strong></td><td>角色一致性全程锁定 ✅ 同场景粘贴母代码 ✅ 每镜2-4张备选 ✅ 崩图及时标记 ✅ 进度表实时更新 ✅</td></tr>
+<tr><td><strong>生图后</strong></td><td>逐镜对照分镜脚本 ✅ 角色3-5镜面部抽查 ✅ 场景连续性检查 ✅ 手指/面部特写重点检查 ✅ 超清放大≥1080P ✅</td></tr>
+</tbody></table></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🔍 图片质量控制与后期</h2>
+
+<h4 style="font-size:0.95rem;margin:12px 0 8px;">🔎 放大算法选择</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>放大模型</th><th>最适合</th><th>倍数</th><th>特点</th></tr></thead><tbody>
+<tr><td><strong>4× Ultrasharp</strong></td><td>漫画/二次元</td><td>4×</td><td>线条锐利、细节强</td></tr>
+<tr><td><strong>2x-Manga-Ora</strong></td><td>黑白漫画/线稿</td><td>2×</td><td>保留手绘感</td></tr>
+<tr><td><strong>ESRGAN 4×</strong></td><td>通用</td><td>4×</td><td>细节还原好</td></tr>
+<tr><td><strong>Real-ESRGAN</strong></td><td>写实照片/混合</td><td>4×</td><td>去模糊+降噪</td></tr>
+</tbody></table></div>
+
+<h4 style="font-size:0.95rem;margin:12px 0 8px;">🎨 统一调色参数</h4>
+<div class="data-table-wrapper"><table><thead><tr><th>参数</th><th>建议</th><th>作用</th></tr></thead><tbody>
+<tr><td>色温</td><td>暖色+5~+10 / 冷色-5~-10</td><td>统一冷暖基调</td></tr>
+<tr><td>饱和度</td><td>-5~-10</td><td>AI图通常太鲜艳</td></tr>
+<tr><td>对比度</td><td>+5~+10</td><td>增加立体感</td></tr>
+<tr><td>锐化</td><td>+10~+20</td><td>弥补AI柔感</td></tr>
+</tbody></table></div>
+<div class="tip-card success"><span class="tip-icon">🔑</span><span><strong>关键技巧：</strong>同一场景所有镜头，在剪映/PS中<strong>复制粘贴调色参数</strong>——这是保持画面一致的最快方法。</span></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🚫 生图翻车大全与排错</h2>
+
+<div class="data-table-wrapper"><table><thead><tr><th>#</th><th>问题</th><th>根因</th><th>标准解法</th></tr></thead><tbody>
+<tr><td>1</td><td>🖐️ <strong>手指扭曲</strong></td><td>AI模型共同弱点</td><td>藏手/构图规避/负面词/多重生成/局部重绘</td></tr>
+<tr><td>2</td><td>👤 <strong>角色变脸</strong></td><td>未锁定参考图+风格漂移</td><td>锁定参考图+固定风格关键词+LoRA触发词</td></tr>
+<tr><td>3</td><td>👁️ <strong>眼睛不对称</strong></td><td>侧脸角度AI理解错误</td><td>负面词加<code>asymmetrical eyes</code></td></tr>
+<tr><td>4</td><td>🏠 <strong>场景背景漂移</strong></td><td>未使用场景母代码</td><td>每镜末尾固定粘贴场景母代码</td></tr>
+<tr><td>5</td><td>🎨 <strong>画风突变</strong></td><td>风格关键词/模型版本不同</td><td>固定风格关键词+固定模型版本+相同seed范围</td></tr>
+<tr><td>6</td><td>📐 <strong>构图崩塌</strong></td><td>提示词要素冲突</td><td>简化提示词/ControlNet锁定/加<code>anatomically correct</code></td></tr>
+<tr><td>7</td><td>🌫️ <strong>模糊发虚</strong></td><td>分辨率不足/采样步数少</td><td>分辨率1024+/Steps 30+/加<code>sharp focus, highly detailed</code></td></tr>
+<tr><td>8</td><td>🐌 <strong>生成速度慢</strong></td><td>GPU性能/工具限制</td><td>先出小图再放大/使用LCM加速LoRA</td></tr>
+</tbody></table></div>
+
+<div class="tip-card danger" style="margin-top:16px;"><span class="tip-icon">🖐️</span><span><strong>手指问题终极排错流程：</strong>①构图规避(90%)→②藏手(100%)→③负面词强化(60%)→④多重生成8张选1张(70%)→⑤局部重绘(85%)→⑥PS手动修(100%但最费时)。<strong>实用主义：能藏就藏，观众不会注意。</strong></span></div>
+
+<hr style="border:none;border-top:1px solid var(--border);margin:32px 0;">
+
+<h2 style="font-size:1.15rem;margin-bottom:16px;">🧰 生图工具链与学习资源</h2>
+
+<div class="data-table-wrapper"><table><thead><tr><th>工具</th><th>类型</th><th>费用</th><th>推荐理由</th></tr></thead><tbody>
+<tr><td><strong>即梦 4.0</strong></td><td>在线</td><td>免费/68元</td><td>中文理解最好、角色一致强</td></tr>
+<tr><td><strong>豆包</strong></td><td>在线</td><td>免费</td><td>字节系、与即梦互补</td></tr>
+<tr><td><strong>Midjourney V7</strong></td><td>在线</td><td>$30/月</td><td>电影级画质、--oref锁角色</td></tr>
+<tr><td><strong>ComfyUI</strong></td><td>本地</td><td>免费</td><td>节点化批量管线、无限DIY</td></tr>
+<tr><td><strong>Kohya_ss</strong></td><td>训练</td><td>免费</td><td>业界标准LoRA训练工具</td></tr>
+</tbody></table></div>
+
+<h4 style="font-size:0.95rem;margin:16px 0 8px;">📚 学习资源</h4>
+<ul style="padding-left:20px;color:var(--text-secondary);font-size:0.9rem;line-height:2.2;">
+  <li><strong>书籍</strong>：《AIGC商业插画应用技巧》《Stable Diffusion AI绘画全面贯通》（2024年底出版）</li>
+  <li><strong>B站搜索</strong>：「即梦AI教程 漫画」「ComfyUI 漫画工作流」「Midjourney 角色一致性」「Stable Diffusion LoRA训练」</li>
+  <li><strong>GitHub</strong> <a href="https://github.com/Hunyuan-PromptEnhancer/PromptEnhancer" target="_blank">PromptEnhancer</a> — 腾讯提示词增强 | <a href="https://github.com/cubiq/ComfyUI_IPAdapter_plus" target="_blank">IPAdapter_plus</a> — 身份注入节点 | <a href="https://github.com/AHEKOT/ComfyUI_VNCCS" target="_blank">VNCCS</a> — 漫画专用工作流</li>
+  <li><strong>论文</strong>：PromptEnhancer(腾讯2025) | PRISM自动提示工程(arXiv 2403.19103) | OminiControl Comic LoRA(KSE 2025)</li>
+</ul>
+
+<div class="golden-box" style="margin-top:20px;">
+<strong>🎯 批量生图核心心法</strong><br>
+<span style="color:var(--text-secondary);">
+<strong>生图是你对最终画面的最后一次精确控制。</strong><br>
+先定角色再定场景——不要同时解决所有问题。提示词链拆三步，每步只让AI做一件事。<br>
+同场景所有镜头固定粘贴场景母代码，同角色所有镜头锁定参考图。<br>
+能藏手就藏，能避就避——在观众注意不到的地方纠结完美度，是"创作者自嗨"。<br>
+搭好角色资产库+场景资产库+提示词复用库，后续项目越做越省力。
+</span>
+</div>
 `},
 
   step6: { number:'06',icon:'🎥',title:'图生视频 — 让静止画面动起来',label:'画面动起来',
